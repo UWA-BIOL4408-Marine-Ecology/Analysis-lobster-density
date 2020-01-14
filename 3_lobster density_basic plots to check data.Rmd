@@ -59,7 +59,9 @@ dat<-read_csv("lobster.density.csv")%>%
 
 ## OR read from github and write to data folder
 ```{r message=FALSE, warning=FALSE}
-dat<-read.csv(text=getURL("https://raw.githubusercontent.com/TimLanglois/BIOL4408/master/Analysis_Lobster_density/Data/lobster.density.csv"))
+
+dat<-read.csv(text=getURL("https://raw.githubusercontent.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/master/Data/lobster.density.csv"))
+
 
 setwd(data.dir) #set the directory
 dir() #look in the directory

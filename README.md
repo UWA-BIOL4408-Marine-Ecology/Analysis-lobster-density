@@ -1,5 +1,7 @@
 # Analysis-lobster-density
-Scripts for analysis of lobster density surveys
+Scripts for analysis of lobster density surveys.
+
+The current data archive lives in this [GoogleSheet](https://docs.google.com/spreadsheets/d/1Wqn7m2jopx11n5fdl9MHZAujRVkjBusdmIHq_gMhf0A/edit?usp=sharing). You only have permission to view this data.
 
 [Analysis-lobster-density](https://github.com/UWA-BIOL4407-Marine-Ecology/Analysis-lobster-density/blob/08359a2a1a36acde4f2b6532f14e4dab49eeb310/README.md)
 
