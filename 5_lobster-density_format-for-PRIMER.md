@@ -9,8 +9,8 @@ PRIMER and PERMANOVA+ are very handy pieces of software for multivariate
 and univariate analyses. Many multivariate analyses can also be
 implemented in R using packages such as vegan(), which has a
 permutational ANOVA function called adonis(). BUT I have found the
-DistLM and PERMANOVA/PERMANCOVA routines are more robust than their R
-equivalents.
+DistLM and PERMANOVA/PERMANCOVA routines in PRIMER and PERMANOVA+ are
+more robust than their R equivalents.
 
 In particualr for mixed-model designs, PERMANOVA helps you build the
 correct analytical model if you specify the design correctly. In the
@@ -26,13 +26,13 @@ multivariate data, by choosing the appropriate distance measure.
 
 The draw back of using the PERMANOVA/PERMANCOVA/DistLM routines for
 univaritate analyses is that you cannot predict from the final model. If
-you want a predictive model, you need to use R and use an appropriate
-error distribution family (e.g. poisson, negative binomial) that fits
-your data.
+you want a predictive model, you need to use some other form of
+modelling (in R) and use an appropriate error distribution family
+(e.g. poisson, negative binomial) that fits your data.
 
 The following scripts demonstrate how to format LONG data into WIDE
-datat for import into PRIMER. Typically you import WIDE data into PRIMER
-but PRIMER will accept LONG data.
+datat for import into PRIMER. Typically people import WIDE data into
+PRIMER but PRIMER will accept LONG data.
 
 Load extra librarys
 
@@ -73,7 +73,7 @@ Use here() to make a shortcut to the “Data” directory.
 data.dir \<- here(“Data”)
 
 The above code probrably won’t work. Do you know why? By installing the
-plyr() package above we have created a conflict and plyr() also has a
+plyr() package above we have created a conflict as plyr() also has a
 function called here().
 
 We can prevent the conflict by specifying the package from which we want
@@ -252,4 +252,4 @@ dir()
     ## [2] "response.factors.lobster.density.csv"
 
 Go back to
-[Analysis-lobster-density](https://github.com/UWA-BIOL4407-Marine-Ecology/Analysis-lobster-density/blob/234351d599d9e8c931c3bdf610e34f7980c6b273/README.md)
+[Analysis-lobster-density](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/README.md)

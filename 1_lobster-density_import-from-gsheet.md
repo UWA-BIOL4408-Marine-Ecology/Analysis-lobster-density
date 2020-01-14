@@ -85,13 +85,21 @@ Now we need to write the data.
 There are several ways to setting the directory where we will read data
 from or write data to.
 
-We are going to use the here() function.
+We are going to use the here() function, which creates a shortcut to
+your
+    location.
+
+``` r
+here()
+```
+
+    ## [1] "/Users/00068010/GitHub/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density"
 
 As long as the names on the folders are consistent this function will
 enable us to work across computers and operating systems.
 
-Once we have created a “Data” driectory; let’s use here() to make a
-shortcut to that “Data” directory.
+Let’s create a “Data” driectory then use here() to make a shortcut to
+that “Data” directory.
 
 ``` r
 dir.create(file.path(here(), "Data")) #create Plots folder
@@ -112,8 +120,8 @@ dir()
 write_csv(dat,paste(study,"gsheet","csv",sep = "."))
 ```
 
-Go to
-[2\_lobster-density\_check-data](https://github.com/UWA-BIOL4407-Marine-Ecology/Analysis-lobster-density/blob/4530c633e60c4e3ea610ea27bf4a1d24b6a807e2/2_lobster-density_check-data.md)
-
 Go back to
-[Analysis-lobster-density](https://github.com/UWA-BIOL4407-Marine-Ecology/Analysis-lobster-density/blob/234351d599d9e8c931c3bdf610e34f7980c6b273/README.md)
+[Analysis-lobster-density](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/README.md)
+
+Go forward to
+[2\_lobster-density\_check-data](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/2_lobster-density_check-data.md)

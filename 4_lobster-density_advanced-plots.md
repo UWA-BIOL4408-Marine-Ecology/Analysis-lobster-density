@@ -5,16 +5,16 @@ TimLanglois
 
 # 4\. Advanced plots
 
-For a discussion on good practice for plotting - see here:
-\*\*\*\*\*\*\*\*
+For a discussion the Do’s and don’ts of making effective graphics, I
+recomend checking out Jenny Bryan’s recomnedations in her excellent
+course: <https://stat545.com/effective-graphs.html>
 
-Rember that is it generally accepted that you should only plot by
-significant/important factors/relationships. So your final plotting
-should reflect what you find to be significant/important in your data
-analysis.
+Rember that generally you should only plot by significant/important
+factors/relationships. So plots presented in your Results section should
+reflect what you find to be significant/important in your data analysis.
 
-Here I provide exmaples of how to plot the potentially
-significant/important factors.
+Below are exmaples of how to plot potentially significant/important
+factors.
 
 Load extra librarys
 
@@ -54,7 +54,7 @@ shortcut to it
 ``` r
 dir.create(file.path(here(), "Plots")) #create Plots folder
 
-plots.dir=here("Analysis_Lobster_density","Plots")
+plots.dir=here("Plots")
 ```
 
 Read in data for plotting
@@ -138,7 +138,7 @@ status.barplot
 
 ![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-Here we save the plot base on its name. This makes it simpler when you
+Here we save the plot base on its name. This makes life simpler when you
 are making mulitple plots in a script and want to save them all in one
 go at the end of the script. We can also sett the size of the final plot
 
@@ -165,7 +165,7 @@ ggbarplot.status.size
 # Very smart plot using Themes
 
 Plotting in R is very customisable. And easy way to style the asethics
-of your plots is to use different default themes, e.g. theme\_bw().
+of your plots in ggplot() is to use default themes, e.g. theme\_bw().
 
 In addition you can develop your own custom theme to augment the default
 themes. Use theme\_get() to see available options.
@@ -284,10 +284,11 @@ Sanctuary
 
 ## A note on geom\_smooth()
 
-Geom\_smooth() will calculate SE around a fitted model dependent on the
-method argument. This SE is based a simplest model, as specified in the
-method argument, and is unlikley to be appropriate for the sampling
-design or data analysis model you have used.
+A word of caution, geom\_smooth() will calculate SE around a fitted
+model dependent on the method argument in the function. This SE is based
+on model, as specified in the method argument, and is unlikley to be
+appropriate for the sampling design or data analysis model you have
+used.
 
 In the case of this example lobster density data, the sampling design
 involes multiple locations and sites, which may have been analysed with
@@ -312,8 +313,8 @@ mean and SE of the fitted model.
 
 No one worries about this with most ANOVA analyses :)
 
-Go to
-[5\_lobster-density\_format-for-PRIMER](https://github.com/UWA-BIOL4407-Marine-Ecology/Analysis-lobster-density/blob/234351d599d9e8c931c3bdf610e34f7980c6b273/5_lobster-density_format-for-PRIMER.md)
-
 Go back to
-[Analysis-lobster-density](https://github.com/UWA-BIOL4407-Marine-Ecology/Analysis-lobster-density/blob/234351d599d9e8c931c3bdf610e34f7980c6b273/README.md)
+[Analysis-lobster-density](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/README.md)
+
+Go forward to
+[5\_lobster-density\_format-for-PRIMER](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/5_lobster-density_format-for-PRIMER.md)

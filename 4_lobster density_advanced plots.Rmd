@@ -14,11 +14,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # 4. Advanced plots
 
-For a discussion on good practice for plotting - see here: ********
+For a discussion the Do’s and don’ts of making effective graphics, I recomend checking out Jenny Bryan's recomnedations in her excellent course: https://stat545.com/effective-graphs.html
 
-Rember that is it generally accepted that you should only plot by significant/important factors/relationships. So your final plotting should reflect what you find to be significant/important in your data analysis.
+Rember that generally you should only plot by significant/important factors/relationships. So plots presented in your Results section should reflect what you find to be significant/important in your data analysis.
 
-Here I provide exmaples of how to plot the potentially significant/important factors.
+Below are exmaples of how to plot potentially significant/important factors.
 
 
 
@@ -58,7 +58,7 @@ Create a 'Plots' folder if you don't already have one and create a shortcut to i
 ```{r , message=FALSE, warning=FALSE}
 dir.create(file.path(here(), "Plots")) #create Plots folder
 
-plots.dir=here("Analysis_Lobster_density","Plots")
+plots.dir=here("Plots")
 ```
 
 
@@ -106,7 +106,7 @@ status.barplot
 ```
 
 Here we save the plot base on its name.
-This makes it simpler when you are making mulitple plots in a script and want to save them all in one go at the end of the script.
+This makes life simpler when you are making mulitple plots in a script and want to save them all in one go at the end of the script.
 We can also sett the size of the final plot
 ```{r}
 ggsave(here("Plots","status.barplot2.png"),status.barplot)
@@ -132,7 +132,7 @@ ggbarplot.status.size
 
 # Very smart plot using Themes
 
-Plotting in R is very customisable. And easy way to style the asethics of your plots is to use different default themes, e.g. theme_bw().
+Plotting in R is very customisable. And easy way to style the asethics of your plots in ggplot() is to use  default themes, e.g. theme_bw().
 
 In addition you can develop your own custom theme to augment the default themes.
 Use theme_get() to see available options.
@@ -241,8 +241,8 @@ ggplot(dat%>%filter(size.class=="legal"&year==2019),aes(x=status, y=count,fill=s
 
 ## A note on geom_smooth()
 
-Geom_smooth() will calculate SE around a fitted model dependent on the method argument.
-This SE is based a simplest model, as specified in the method argument, and is unlikley to be appropriate for the sampling design or data analysis model you have used.
+A word of caution, geom_smooth() will calculate SE around a fitted model dependent on the method argument in the function.
+This SE is based on model, as specified in the method argument, and is unlikley to be appropriate for the sampling design or data analysis model you have used.
 
 In the case of this example lobster density data, the sampling design involes multiple locations and sites, which may have been analysed with a nested and/or mixed model. Therefore any SE calcualted by the geom_smooth() function will not be correct/appropriate to display.
   
@@ -260,9 +260,9 @@ In this case, the appropriate way to generate a SE would be to model the data us
 No one worries about this with most ANOVA analyses :)
 
 
-Go to [5_lobster-density_format-for-PRIMER](https://github.com/UWA-BIOL4407-Marine-Ecology/Analysis-lobster-density/blob/234351d599d9e8c931c3bdf610e34f7980c6b273/5_lobster-density_format-for-PRIMER.md)
 
-Go back to [Analysis-lobster-density](https://github.com/UWA-BIOL4407-Marine-Ecology/Analysis-lobster-density/blob/234351d599d9e8c931c3bdf610e34f7980c6b273/README.md)
+Go back to [Analysis-lobster-density](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/README.md)
 
+Go forward to [5_lobster-density_format-for-PRIMER](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/5_lobster-density_format-for-PRIMER.md)
 
 

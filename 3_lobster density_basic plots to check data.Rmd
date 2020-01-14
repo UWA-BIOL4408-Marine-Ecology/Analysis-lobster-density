@@ -43,7 +43,7 @@ data.dir <- here("Data")
 glimpse() shows the variable names, formats, head of the data.
 
 I have also shown you the message from read_csv() - which alerts you to the format that each column of the data was read in as.
-The format is decided by read_csv() previewing the first 1000 rows of data.
+read_csv() decides on this format by previewing the first 1000 rows of data.
 
 This is very important to check and you can also use this column specification to stipluate/force the formatting of each column as the data is read in by the function.
 
@@ -133,9 +133,9 @@ Box plots provide a summary of your data:
 
 Boxplots are useful to tell you about your outliers and what their values are. They can also tell you if your data is symmetrical, how tightly your data is grouped, and if and how your data is skewed.
 
-Our lobster data is heavily skewed to zero values. Box plots are not so useful to display such data, but it is important for us to see this zero-richness and think about how it may influence our data analysis.
+Our lobster data is heavily skewed to zero values. Box plots are not so useful to display such data, but it is important for us to see this zero-richness and think about how to account for this in our data analysis.
 
-Boxplots also do not indicate where the mean is. Given that most statistical tests are comparing means  - we should add a mean to see where it is.
+Boxplots do not indicate where the mean is. Given that most statistical tests are comparing means - we should add a mean to see where it is.
 
 
 
@@ -150,12 +150,13 @@ ggplot(dat, aes(x=status, y=count)) +
 ```
 
 The means are close to zero!
-We will make some alternative plots, better suited to showing zeros in the next scripts.
+We will make some alternative plots, better suited to showing zeros in the next script.
 
 
 Boxplots are not good for displaying count data, especially zero-rich count data.
-Boxplots are much better suited to display continous environmental data such as out estimates of complexity.
-Are complexity data is only semi-continous and really ordered categorical data, but the boxplot can show us the patterns in this data well.
+Boxplots are much better suited to display continous environmental data such as out estimates of habitat complexity.
+
+Our complexity data is only semi-continous and really ordered categorical data, but the boxplot can show us the patterns in this data.
 
 ```{r}
 ggplot(dat, aes(x=status, y=complexity)) + 
@@ -166,6 +167,6 @@ ggplot(dat, aes(x=status, y=complexity)) +
 ```
 
 
-Go to [4_lobster-density_advanced-plots](https://github.com/UWA-BIOL4407-Marine-Ecology/Analysis-lobster-density/blob/234351d599d9e8c931c3bdf610e34f7980c6b273/4_lobster-density_advanced-plots.md)
+Go back to [Analysis-lobster-density](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/README.md)
 
-Go back to [Analysis-lobster-density](https://github.com/UWA-BIOL4407-Marine-Ecology/Analysis-lobster-density/blob/234351d599d9e8c931c3bdf610e34f7980c6b273/README.md)
+Go forward to [4_lobster-density_advanced-plots](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/4_lobster-density_advanced-plots.md)

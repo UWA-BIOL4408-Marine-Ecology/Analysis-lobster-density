@@ -530,8 +530,8 @@ dir() #look in the directory
 write_csv(dat,paste(study,"csv",sep = "."))
 ```
 
-Go to
-[3\_lobster-density\_basic-plots-to-check-data](https://github.com/UWA-BIOL4407-Marine-Ecology/Analysis-lobster-density/blob/4530c633e60c4e3ea610ea27bf4a1d24b6a807e2/3_lobster-density_basic-plots-to-check-data.md)
-
 Go back to
-[Analysis-lobster-density](https://github.com/UWA-BIOL4407-Marine-Ecology/Analysis-lobster-density/blob/234351d599d9e8c931c3bdf610e34f7980c6b273/README.md)
+[Analysis-lobster-density](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/README.md)
+
+Go forward to
+[3\_lobster-density\_basic-plots-to-check-data](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/3_lobster-density_basic-plots-to-check-data.md)
