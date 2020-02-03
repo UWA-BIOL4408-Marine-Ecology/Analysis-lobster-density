@@ -112,7 +112,7 @@ response<-dat%>%
 Make the covariate data
 ```{r}
 covariates<-dat%>%
-  dplyr::select(sample.no,complexity,algal.cover,year)%>%
+  dplyr::select(sample.no,complexity,depth,year)%>%
   dplyr::distinct()%>%
   dplyr::glimpse()
 

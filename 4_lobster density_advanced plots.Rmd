@@ -222,20 +222,30 @@ ggplot(dat%>%filter(size.class=="legal"), aes(x=complexity, y=count,colour=statu
   facet_grid(sanctuary~.)
 ```
 
-2019 - Sanctuary x Status
+2020 - Sanctuary x Status
 ```{r}
-ggplot(dat%>%filter(size.class=="legal"&year==2019),aes(x=status, y=count,fill=status)) +
+ggplot(dat%>%filter(size.class=="legal"&year==2020),aes(x=status, y=count,fill=status)) +
     stat_summary(fun.y=mean, geom="bar", colour="black") +
     stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1) +
     facet_grid(.~sanctuary)
 ```
 
 
-2019 -  Complexity x Sanctuary
+2020 -  Complexity x Status
 ```{r}
- ggplot(dat%>%filter(size.class=="legal"&year==2019), aes(x=complexity, y=count,colour=sanctuary)) + 
+ ggplot(dat%>%filter(size.class=="legal"&year==2020), aes(x=complexity, y=count,colour=sanctuary)) + 
     geom_smooth(method=lm, size=0.5,se=F)+
-    coord_cartesian(ylim = c(0, 3), expand = FALSE)
+    coord_cartesian(ylim = c(0, 0.5), expand = FALSE)+
+  facet_grid(.~status)
+```
+
+
+2020 -  Depth x Status
+```{r}
+ ggplot(dat%>%filter(size.class=="legal"&year==2020), aes(x=depth, y=count,colour=sanctuary)) + 
+    geom_smooth(method=lm, size=0.5,se=F)+
+    coord_cartesian(ylim = c(0, 0.5), expand = FALSE)+
+  facet_grid(.~status)
 ```
 
 

@@ -63,7 +63,8 @@ dat<-read_csv("lobster.density.csv")%>%
 ## OR read from github and write to data folder
 ```{r message=FALSE, warning=FALSE}
 
-dat<-read.csv(text=getURL("https://raw.githubusercontent.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/master/Data/lobster.density.csv"))
+dat.git<-read.csv(text=getURL("https://raw.githubusercontent.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/master/Data/lobster.density.csv"))%>%
+  glimpse()
 
 
 setwd(data.dir) #set the directory
@@ -157,12 +158,22 @@ We will make some alternative plots, better suited to showing zeros in the next 
 
 
 Boxplots are not good for displaying count data, especially zero-rich count data.
-Boxplots are much better suited to display continous environmental data such as out estimates of habitat complexity.
+Boxplots are much better suited to display continous environmental data such as our estimates of habitat complexity.
 
 Our complexity data is only semi-continous and really ordered categorical data, but the boxplot can show us the patterns in this data.
 
 ```{r}
 ggplot(dat, aes(x=status, y=complexity)) + 
+  geom_boxplot(outlier.shape = NA)+
+  geom_point(position = position_jitter(width = 0.3, h = 0),alpha = 1/4, size=1)+
+  stat_summary(fun.y=mean, geom="point", shape=2, size=4, colour="red")+ #adds mean
+  facet_grid(size.class~sanctuary)
+```
+
+
+And what does our depth data from 2020 look like?
+```{r}
+ggplot(dat%>%filter(year==2020), aes(x=status, y=depth)) + 
   geom_boxplot(outlier.shape = NA)+
   geom_point(position = position_jitter(width = 0.3, h = 0),alpha = 1/4, size=1)+
   stat_summary(fun.y=mean, geom="point", shape=2, size=4, colour="red")+ #adds mean
