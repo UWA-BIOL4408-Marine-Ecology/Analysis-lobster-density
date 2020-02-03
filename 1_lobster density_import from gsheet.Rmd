@@ -34,12 +34,12 @@ url <- "https://docs.google.com/spreadsheets/d/1Wqn7m2jopx11n5fdl9MHZAujRVkjBusd
 # Then we can read it in
 dat<-read_sheet(url, sheet = "lobster.density")%>%
   as_tibble()%>%
-  select(-c('longitude','latitude','time','way.point','gps','depth','group'))%>%
+  select(-c('longitude','latitude','time','way.point','gps','group'))%>%
   glimpse()
 ```
 
 
-Now we need to write the data.
+Now we need to save a copy of the data.
 
 There are several ways to setting the directory where we will read data from or write data to.
 
@@ -60,7 +60,7 @@ data.dir <- here("Data")
 
 Now to write the data we have imported from the googlesheet.
 We will append the study name.
-```{r write, message=FALSE, warning=FALSE}
+```{r write, message=TRUE, warning=TRUE}
 setwd(data.dir)#this is our shortcut using here()
 dir()
 

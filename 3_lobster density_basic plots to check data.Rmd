@@ -35,7 +35,10 @@ study<-"lobster.density"
 
 Use here() to make a shortcut to the "Data" directory.
 ```{r here, message=FALSE, warning=FALSE}
+here()
 data.dir <- here("Data")
+
+data.dir
 ```
 
 
