@@ -5,7 +5,11 @@ TimLanglois
 
 ## 1\. Import lobster density data from a google sheet
 
-First we load some librarys
+We have to install two packages that are not pre-installed in ecocloud
+
+install.packages(“googlesheets4”) install.packages(“here”)
+
+Next we load some librarys
 
 ``` r
 library(googlesheets4) #to read gsheet
@@ -28,9 +32,11 @@ Read in the data from the google sheet and check it
 url <- "https://docs.google.com/spreadsheets/d/1Wqn7m2jopx11n5fdl9MHZAujRVkjBusdmIHq_gMhf0A"
 
 # Then we can read it in
+options(httr_oob_default=TRUE) # to allow access to googlesheets
+
 dat<-read_sheet(url, sheet = "lobster.density")%>%
   as_tibble()%>%
-  select(-c('longitude','latitude','time','way.point','gps','depth','group'))%>%
+  select(-c('longitude','latitude','time','way.point','gps','group'))%>%
   glimpse()
 ```
 
@@ -39,8 +45,8 @@ dat<-read_sheet(url, sheet = "lobster.density")%>%
     ## See gargle's "Non-interactive auth" vignette for more details:
     ## https://gargle.r-lib.org/articles/non-interactive-auth.html
     ## The googlesheets4 package is using a cached token for tim.langlois@marineecology.io.
-    ## Observations: 2,825
-    ## Variables: 38
+    ## Observations: 3,225
+    ## Variables: 39
     ## $ year              <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 201…
     ## $ date              <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-…
     ## $ sanctuary         <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", …
@@ -48,6 +54,7 @@ dat<-read_sheet(url, sheet = "lobster.density")%>%
     ## $ site              <chr> "Little Armstrong", "Little Armstrong", "Little Arm…
     ## $ replicate         <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …
     ## $ sampling.location <chr> "none", "none", "none", "none", "none", "none", "no…
+    ## $ depth             <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ complexity        <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, …
     ## $ algal.cover       <dbl> 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, …
     ## $ unsized           <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
@@ -80,7 +87,7 @@ dat<-read_sheet(url, sheet = "lobster.density")%>%
     ## $ x145              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ x150              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
 
-Now we need to write the data.
+Now we need to save a copy of the data.
 
 There are several ways to setting the directory where we will read data
 from or write data to.
@@ -98,12 +105,23 @@ here()
 As long as the names on the folders are consistent this function will
 enable us to work across computers and operating systems.
 
-Let’s create a “Data” driectory then use here() to make a shortcut to
+If you are using an ecocloud server - we will have to add folder names
+to the here() function - but this should work
+
+\#here(“workspace”,“Template-lobster-density”,“Data”)
+
+Let’s create a “Data” directory then use here() to make a shortcut to
 that “Data” directory.
 
 ``` r
-dir.create(file.path(here(), "Data")) #create Plots folder
+dir.create(file.path(here(), "Data")) #create Data folder
+
 data.dir <- here("Data")
+
+#or for ecocloud
+#dir.create(file.path(here(), "workspace","Template-lobster-density","Data")) #create Data folder
+
+#data.dir <- here("workspace","Template-lobster-density","Data")
 ```
 
 Now to write the data we have imported from the googlesheet. We will

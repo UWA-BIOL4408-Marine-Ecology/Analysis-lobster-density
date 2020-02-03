@@ -46,6 +46,9 @@ Use here() to make a shortcut to the “Data” directory.
 
 ``` r
 data.dir <- here("Data")
+
+# or for ecocloud
+#data.dir <- here("workspace","Template-lobster-density","Data")
 ```
 
 Create a ‘Plots’ folder if you don’t already have one and create a
@@ -55,6 +58,10 @@ shortcut to it
 dir.create(file.path(here(), "Plots")) #create Plots folder
 
 plots.dir=here("Plots")
+
+# or for ecocloud
+#dir.create(file.path(here(), "workspace","Template-lobster-density","Plots"))
+#plots.dir <- here("workspace","Template-lobster-density","Plots")
 ```
 
 Read in data for plotting
@@ -80,23 +87,23 @@ dat<-read_csv("lobster.density.csv")%>%
     ##   status = col_character(),
     ##   site.new = col_character(),
     ##   complexity = col_double(),
-    ##   algal.cover = col_double(),
+    ##   depth = col_double(),
     ##   size.class = col_character(),
     ##   count = col_double()
     ## )
 
-    ## Observations: 6,402
+    ## Observations: 7,032
     ## Variables: 10
-    ## $ sample.no   <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-    ## $ year        <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 201…
-    ## $ date        <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:…
-    ## $ sanctuary   <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armst…
-    ## $ status      <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "N…
-    ## $ site.new    <chr> "Little Armstrong.No-take", "Little Armstrong.No-take", "…
-    ## $ complexity  <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, …
-    ## $ algal.cover <dbl> 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 2, 2, …
-    ## $ size.class  <chr> "legal", "legal", "legal", "legal", "legal", "legal", "le…
-    ## $ count       <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, …
+    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
+    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
+    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
+    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
+    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal", "leg…
+    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
 
 ## Make mean and SE plot
 
@@ -259,11 +266,11 @@ ggplot(dat%>%filter(size.class=="legal"), aes(x=complexity, y=count,colour=statu
 
 ![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
-2019 - Sanctuary x
+2020 - Sanctuary x
 Status
 
 ``` r
-ggplot(dat%>%filter(size.class=="legal"&year==2019),aes(x=status, y=count,fill=status)) +
+ggplot(dat%>%filter(size.class=="legal"&year==2020),aes(x=status, y=count,fill=status)) +
     stat_summary(fun.y=mean, geom="bar", colour="black") +
     stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1) +
     facet_grid(.~sanctuary)
@@ -271,16 +278,29 @@ ggplot(dat%>%filter(size.class=="legal"&year==2019),aes(x=status, y=count,fill=s
 
 ![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
-2019 - Complexity x
-Sanctuary
+2020 - Complexity x
+Status
 
 ``` r
- ggplot(dat%>%filter(size.class=="legal"&year==2019), aes(x=complexity, y=count,colour=sanctuary)) + 
+ ggplot(dat%>%filter(size.class=="legal"&year==2020), aes(x=complexity, y=count,colour=sanctuary)) + 
     geom_smooth(method=lm, size=0.5,se=F)+
-    coord_cartesian(ylim = c(0, 3), expand = FALSE)
+    coord_cartesian(ylim = c(0, 0.5), expand = FALSE)+
+  facet_grid(.~status)
 ```
 
 ![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+2020 - Depth x
+Status
+
+``` r
+ ggplot(dat%>%filter(size.class=="legal"&year==2020), aes(x=depth, y=count,colour=sanctuary)) + 
+    geom_smooth(method=lm, size=0.5,se=F)+
+    coord_cartesian(ylim = c(0, 0.5), expand = FALSE)+
+  facet_grid(.~status)
+```
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 ## A note on geom\_smooth()
 
@@ -305,7 +325,7 @@ SE
   ggtitle("incorrect SE")
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 In this case, the appropriate way to generate a SE would be to model the
 data using glmer() or equivalent and then use predict() to predict the

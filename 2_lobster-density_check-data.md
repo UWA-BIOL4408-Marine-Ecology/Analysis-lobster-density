@@ -27,6 +27,9 @@ Use here() to make a shortcut to the “Data” directory.
 
 ``` r
 data.dir <- here("Data")
+
+#or for ecocloud
+#data.dir <- here("workspace","Template-lobster-density","Data")
 ```
 
 Read in the data and glimpse the data. glimpse() shows the variable
@@ -44,8 +47,8 @@ gsheet.dat<-read_csv("lobster.density.gsheet.csv")%>%
   glimpse()
 ```
 
-    ## Observations: 2,825
-    ## Variables: 38
+    ## Observations: 3,225
+    ## Variables: 39
     ## $ year              <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 201…
     ## $ date              <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-…
     ## $ sanctuary         <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", …
@@ -53,6 +56,7 @@ gsheet.dat<-read_csv("lobster.density.gsheet.csv")%>%
     ## $ site              <chr> "Little Armstrong", "Little Armstrong", "Little Arm…
     ## $ replicate         <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …
     ## $ sampling.location <chr> "none", "none", "none", "none", "none", "none", "no…
+    ## $ depth             <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ complexity        <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, …
     ## $ algal.cover       <dbl> 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, …
     ## $ unsized           <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
@@ -105,27 +109,34 @@ unique(gsheet.dat$sanctuary)
 ```
 
     ## [1] "Armstrong Bay" "Parker Point"  "Green Island"  "Parker_Pt"    
-    ## [5] "Armstrong"     "Green_Island"
+    ## [5] "Armstrong"     "Green_Island"  "Parker Pt"     "Green Is"
 
 We need to make these consistent.
 
-Check for unique levels of
-    site.
+Check for unique levels of site.
 
 ``` r
 unique(gsheet.dat$site)
 ```
 
-    ##  [1] "Little Armstrong"     "City of York"         "Ricey Beach"         
-    ##  [4] "Parker Point"         "Armstrong Point"      "Salmon Bay"          
-    ##  [7] "Green Island"         "Mary Cove"            "Geordie Bay"         
-    ## [10] "West Salmon"          "Strickland Bay"       "Parakeet Bay"        
-    ## [13] "Stark Bay"            "Rocky Bay"            "Longreach"           
-    ## [16] "Fairbridge"           "Little Salmon"        "eastsalmon"          
-    ## [19] "East_Salmon"          "Geordie_Bay"          "East_Strickland"     
-    ## [22] "Green_Island"         "Ricey_Bay"            "Little_Salmon"       
-    ## [25] "City of York Bay"     "Little_Armstrong_Bay" "Poc_Reef"            
-    ## [28] "Mary_Cove"            "West_Salmon_Bay"      "Parakeet_Bay"
+    ##  [1] "Little Armstrong"          "City of York"             
+    ##  [3] "Ricey Beach"               "Parker Point"             
+    ##  [5] "Armstrong Point"           "Salmon Bay"               
+    ##  [7] "Green Island"              "Mary Cove"                
+    ##  [9] "Geordie Bay"               "West Salmon"              
+    ## [11] "Strickland Bay"            "Parakeet Bay"             
+    ## [13] "Stark Bay"                 "Rocky Bay"                
+    ## [15] "Longreach"                 "Fairbridge"               
+    ## [17] "Little Salmon"             "eastsalmon"               
+    ## [19] "East_Salmon"               "Geordie_Bay"              
+    ## [21] "East_Strickland"           "Green_Island"             
+    ## [23] "Ricey_Bay"                 "Little_Salmon"            
+    ## [25] "City of York Bay"          "Little_Armstrong_Bay"     
+    ## [27] "Poc_Reef"                  "Mary_Cove"                
+    ## [29] "West_Salmon_Bay"           "Parakeet_Bay"             
+    ## [31] "East Salmon"               "Parker point"             
+    ## [33] "Stickland East"            "Salmon Bay West"          
+    ## [35] "Little Armstrong Bay East" "Little Armstrong Bay West"
 
 “eastsalmon” should be “Salmon Bay”
 
@@ -135,7 +146,7 @@ Check for unique levels of year.
 unique(gsheet.dat$year)
 ```
 
-    ## [1] 2014 2015 2016 2017 2018 2019
+    ## [1] 2014 2015 2016 2017 2018 2019 2020
 
 We think the data from 2017 has errors in it. We should remove it.
 
@@ -153,7 +164,7 @@ summary(gsheet.dat$complexity)
 ```
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##   0.000   2.000   2.000   2.353   3.000   4.000
+    ##   0.000   2.000   2.000   2.386   3.000   4.000
 
 The maximum value is supposed to be 4. Looks ok.
 
@@ -163,23 +174,47 @@ Check measures of habitat cover.
 unique(gsheet.dat$algal.cover)
 ```
 
-    ## [1] 3 2 1 0 4 7
+    ## [1]  3  2  1  0  4  7 NA
 
 ``` r
 summary(gsheet.dat$algal.cover)
 ```
 
-    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##   0.000   1.000   2.000   2.008   3.000   7.000
-
-``` r
-unique(filter(gsheet.dat,year=="2019")$algal.cover)
-```
-
-    ## [1] 2 1 3 4 0
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+    ##   0.000   1.000   2.000   2.008   3.000   7.000     400
 
 The maximum value is supposed to be 4. This does not look consistent.
-Suggest you only use the most recent years of data.
+Suggest you don’t use this.
+
+Check measures of
+    depth.
+
+``` r
+unique(gsheet.dat$depth)
+```
+
+    ##  [1] 0.00 2.00 1.50 2.50 3.00 1.00 1.70 1.80 0.50 3.50 2.30 3.20 4.00 5.00 4.60
+    ## [16] 6.50 4.50 5.50 3.70 2.90 2.10 2.60 2.70 4.20 2.20 0.70 4.30 1.20 2.80 0.75
+    ## [31]   NA 2.40 1.30 1.40 1.90 0.90 3.60 3.80 3.90 4.90 4.40 5.30 1.55 0.30 0.60
+    ## [46] 1.60 0.80 1.10 1.65 4.80 3.40 0.40
+
+``` r
+summary(gsheet.dat$depth)
+```
+
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+    ##  0.0000  0.0000  0.0000  0.8461  1.7000  6.5000     869
+
+``` r
+unique(filter(gsheet.dat,year=="2020")$depth)
+```
+
+    ##  [1] 2.00 1.50 2.50 3.00 2.40 3.50 5.00 1.20 1.80 2.20 1.30 2.10 2.80 1.40 1.70
+    ## [16] 1.00 2.70 2.30 4.00 1.90 0.90 2.90 3.60 4.50 3.80 4.20 3.70 4.60 3.90 5.50
+    ## [31] 4.90 4.40 5.30 0.50 1.55 0.30 0.60 1.60 0.80 0.70 1.10 1.65 4.80 3.40 0.40
+    ## [46] 2.60
+
+This looks reasonable.
 
 Check what sites are missing between years.
 
@@ -187,38 +222,44 @@ Check what sites are missing between years.
 table(gsheet.dat$site,gsheet.dat$year)
 ```
 
-    ##                       
-    ##                        2014 2015 2016 2017 2018 2019
-    ##   Armstrong Point        28    0    0    0    0    0
-    ##   City of York           30   30   30   40   28    0
-    ##   City of York Bay        0    0    0    0    0   30
-    ##   East_Salmon             0    0    0    0    0   30
-    ##   East_Strickland         0    0    0    0    0   30
-    ##   eastsalmon              0    0    0    0   30    0
-    ##   Fairbridge              0   29   30   40   30   30
-    ##   Geordie Bay            30   40   30   40   30    0
-    ##   Geordie_Bay             0    0    0    0    0   30
-    ##   Green Island           30   20   30   40   30    0
-    ##   Green_Island            0    0    0    0    0   30
-    ##   Little Armstrong       58   30   30   40   31    0
-    ##   Little Salmon           0   30   30   40   39    0
-    ##   Little_Armstrong_Bay    0    0    0    0    0   30
-    ##   Little_Salmon           0    0    0    0    0   31
-    ##   Longreach               0   10    0    0    0    0
-    ##   Mary Cove              29   30   30   40   30    0
-    ##   Mary_Cove               0    0    0    0    0   30
-    ##   Parakeet Bay            0   30   60   80   40    0
-    ##   Parakeet_Bay            0    0    0    0    0   30
-    ##   Parker Point          105   60   60   80   70    0
-    ##   Poc_Reef                0    0    0    0    0   30
-    ##   Ricey Beach            30   30   30   40   40    0
-    ##   Ricey_Bay               0    0    0    0    0   30
-    ##   Rocky Bay               0   33    0    0    0    0
-    ##   Salmon Bay             29   30   30   40    0    0
-    ##   Stark Bay               0   20    0    0    0    0
-    ##   Strickland Bay         25   40   30   40   40    0
-    ##   West Salmon            27   23   30   40   40    0
-    ##   West_Salmon_Bay         0    0    0    0    0   30
+    ##                            
+    ##                             2014 2015 2016 2017 2018 2019 2020
+    ##   Armstrong Point             28    0    0    0    0    0    0
+    ##   City of York                30   30   30   40   28    0   30
+    ##   City of York Bay             0    0    0    0    0   30    0
+    ##   East Salmon                  0    0    0    0    0    0   30
+    ##   East_Salmon                  0    0    0    0    0   30    0
+    ##   East_Strickland              0    0    0    0    0   30    0
+    ##   eastsalmon                   0    0    0    0   30    0    0
+    ##   Fairbridge                   0   29   30   40   30   30   20
+    ##   Geordie Bay                 30   40   30   40   30    0   30
+    ##   Geordie_Bay                  0    0    0    0    0   30    0
+    ##   Green Island                30   20   30   40   30    0   30
+    ##   Green_Island                 0    0    0    0    0   30    0
+    ##   Little Armstrong            58   30   30   40   31    0    0
+    ##   Little Armstrong Bay East    0    0    0    0    0    0   30
+    ##   Little Armstrong Bay West    0    0    0    0    0    0   30
+    ##   Little Salmon                0   30   30   40   39    0    0
+    ##   Little_Armstrong_Bay         0    0    0    0    0   30    0
+    ##   Little_Salmon                0    0    0    0    0   31    0
+    ##   Longreach                    0   10    0    0    0    0    0
+    ##   Mary Cove                   29   30   30   40   30    0   30
+    ##   Mary_Cove                    0    0    0    0    0   30    0
+    ##   Parakeet Bay                 0   30   60   80   40    0   30
+    ##   Parakeet_Bay                 0    0    0    0    0   30    0
+    ##   Parker point                 0    0    0    0    0    0   60
+    ##   Parker Point               105   60   60   80   70    0    0
+    ##   Poc_Reef                     0    0    0    0    0   30    0
+    ##   Ricey Beach                 30   30   30   40   40    0   30
+    ##   Ricey_Bay                    0    0    0    0    0   30    0
+    ##   Rocky Bay                    0   33    0    0    0    0    0
+    ##   Salmon Bay                  29   30   30   40    0    0    0
+    ##   Salmon Bay West              0    0    0    0    0    0   30
+    ##   Stark Bay                    0   20    0    0    0    0    0
+    ##   Stickland East               0    0    0    0    0    0   20
+    ##   Strickland Bay              25   40   30   40   40    0    0
+    ##   West Salmon                 27   23   30   40   40    0    0
+    ##   West_Salmon_Bay              0    0    0    0    0   30    0
 
 “Armstrong Point”,“Longreach”,“Rocky Bay”,“Stark Bay” - are only sampled
 once and we should remove them.
@@ -230,38 +271,44 @@ levels of status?
 table(gsheet.dat$site,gsheet.dat$status)
 ```
 
-    ##                       
-    ##                        Fished No-take No-Take
-    ##   Armstrong Point           0      28       0
-    ##   City of York            158       0       0
-    ##   City of York Bay         30       0       0
-    ##   East_Salmon               0      30       0
-    ##   East_Strickland          30       0       0
-    ##   eastsalmon                0      30       0
-    ##   Fairbridge              159       0       0
-    ##   Geordie Bay             170       0       0
-    ##   Geordie_Bay              30       0       0
-    ##   Green Island              0     150       0
-    ##   Green_Island              0      30       0
-    ##   Little Armstrong          0     189       0
-    ##   Little Salmon             0     139       0
-    ##   Little_Armstrong_Bay      0       0      30
-    ##   Little_Salmon             0      31       0
-    ##   Longreach                10       0       0
-    ##   Mary Cove                 0     159       0
-    ##   Mary_Cove                 0       0      30
-    ##   Parakeet Bay            140      70       0
-    ##   Parakeet_Bay             30       0       0
-    ##   Parker Point            170     205       0
-    ##   Poc_Reef                 30       0       0
-    ##   Ricey Beach             170       0       0
-    ##   Ricey_Bay                30       0       0
-    ##   Rocky Bay                33       0       0
-    ##   Salmon Bay                0     129       0
-    ##   Stark Bay                20       0       0
-    ##   Strickland Bay          175       0       0
-    ##   West Salmon             160       0       0
-    ##   West_Salmon_Bay          30       0       0
+    ##                            
+    ##                             Fished No-take No-Take
+    ##   Armstrong Point                0      28       0
+    ##   City of York                 188       0       0
+    ##   City of York Bay              30       0       0
+    ##   East Salmon                    0      30       0
+    ##   East_Salmon                    0      30       0
+    ##   East_Strickland               30       0       0
+    ##   eastsalmon                     0      30       0
+    ##   Fairbridge                   179       0       0
+    ##   Geordie Bay                  200       0       0
+    ##   Geordie_Bay                   30       0       0
+    ##   Green Island                   0     180       0
+    ##   Green_Island                   0      30       0
+    ##   Little Armstrong               0     189       0
+    ##   Little Armstrong Bay East      0      30       0
+    ##   Little Armstrong Bay West      0      30       0
+    ##   Little Salmon                  0     139       0
+    ##   Little_Armstrong_Bay           0       0      30
+    ##   Little_Salmon                  0      31       0
+    ##   Longreach                     10       0       0
+    ##   Mary Cove                      0     189       0
+    ##   Mary_Cove                      0       0      30
+    ##   Parakeet Bay                 170      70       0
+    ##   Parakeet_Bay                  30       0       0
+    ##   Parker point                  30      30       0
+    ##   Parker Point                 170     205       0
+    ##   Poc_Reef                      30       0       0
+    ##   Ricey Beach                  200       0       0
+    ##   Ricey_Bay                     30       0       0
+    ##   Rocky Bay                     33       0       0
+    ##   Salmon Bay                     0     129       0
+    ##   Salmon Bay West               30       0       0
+    ##   Stark Bay                     20       0       0
+    ##   Stickland East                20       0       0
+    ##   Strickland Bay               175       0       0
+    ##   West Salmon                  160       0       0
+    ##   West_Salmon_Bay               30       0       0
 
 ## Corrections to the data
 
@@ -282,7 +329,9 @@ correct.dat<-gsheet.dat %>%
   dplyr::mutate(sanctuary = fct_recode(sanctuary,
                                     "Parker Point" = "Parker_Pt",
                                     "Green Island" = "Green_Island",
-                                    "Armstrong Bay" = "Armstrong"))%>%
+                                    "Armstrong Bay" = "Armstrong",
+                                    "Green Island" = "Green Is",
+                                    "Parker Point" = "Parker Pt"))%>%
   
 #recode the site names
   
@@ -315,52 +364,8 @@ correct.dat<-gsheet.dat %>%
     droplevels()%>%
   
   # Make a new unique Site name - to account for Parker Point being used for inside and outside the NTZ.
-  dplyr::mutate(site.new=paste(site,status,sep="."))%>%
-  
-    glimpse()
+  dplyr::mutate(site.new=paste(sanctuary,status,site,sep="."))
 ```
-
-    ## Observations: 2,134
-    ## Variables: 39
-    ## $ year              <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 201…
-    ## $ date              <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-…
-    ## $ sanctuary         <fct> Armstrong Bay, Armstrong Bay, Armstrong Bay, Armstr…
-    ## $ status            <fct> No-take, No-take, No-take, No-take, No-take, No-tak…
-    ## $ site              <fct> Little Armstrong, Little Armstrong, Little Armstron…
-    ## $ replicate         <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …
-    ## $ sampling.location <chr> "none", "none", "none", "none", "none", "none", "no…
-    ## $ complexity        <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, …
-    ## $ algal.cover       <dbl> 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, …
-    ## $ unsized           <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ legal.unsized     <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ sublegal.unsized  <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x25               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x30               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x35               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, …
-    ## $ x40               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x45               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 0, …
-    ## $ x50               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x55               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 1, 0, …
-    ## $ x60               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x65               <dbl> 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, …
-    ## $ x70               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x75               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x80               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x85               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, …
-    ## $ x90               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x95               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x100              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x105              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x110              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x115              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x120              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x125              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x130              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x135              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x140              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x145              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x150              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ site.new          <chr> "Little Armstrong.No-take", "Little Armstrong.No-ta…
 
 Now we can check our corrections
 
@@ -368,8 +373,8 @@ Now we can check our corrections
 glimpse(correct.dat)
 ```
 
-    ## Observations: 2,134
-    ## Variables: 39
+    ## Observations: 2,534
+    ## Variables: 40
     ## $ year              <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 201…
     ## $ date              <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-…
     ## $ sanctuary         <fct> Armstrong Bay, Armstrong Bay, Armstrong Bay, Armstr…
@@ -377,6 +382,7 @@ glimpse(correct.dat)
     ## $ site              <fct> Little Armstrong, Little Armstrong, Little Armstron…
     ## $ replicate         <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …
     ## $ sampling.location <chr> "none", "none", "none", "none", "none", "none", "no…
+    ## $ depth             <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ complexity        <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, …
     ## $ algal.cover       <dbl> 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, …
     ## $ unsized           <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
@@ -408,7 +414,7 @@ glimpse(correct.dat)
     ## $ x140              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ x145              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ x150              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ site.new          <chr> "Little Armstrong.No-take", "Little Armstrong.No-ta…
+    ## $ site.new          <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstron…
 
 ``` r
 unique(correct.dat$sanctuary) 
@@ -421,11 +427,17 @@ unique(correct.dat$sanctuary)
 unique(correct.dat$site) 
 ```
 
-    ##  [1] Little Armstrong City of York     Ricey Beach      Parker Point    
-    ##  [5] Salmon Bay       Green Island     Mary Cove        Geordie Bay     
-    ##  [9] West Salmon      Strickland Bay   Parakeet Bay     Fairbridge      
-    ## [13] Little Salmon   
-    ## 13 Levels: City of York Salmon Bay Strickland Bay Fairbridge ... West Salmon
+    ##  [1] Little Armstrong          City of York             
+    ##  [3] Ricey Beach               Parker Point             
+    ##  [5] Salmon Bay                Green Island             
+    ##  [7] Mary Cove                 Geordie Bay              
+    ##  [9] West Salmon               Strickland Bay           
+    ## [11] Parakeet Bay              Fairbridge               
+    ## [13] Little Salmon             East Salmon              
+    ## [15] Parker point              Stickland East           
+    ## [17] Salmon Bay West           Little Armstrong Bay East
+    ## [19] Little Armstrong Bay West
+    ## 19 Levels: City of York East Salmon Salmon Bay Strickland Bay ... West Salmon
 
 ``` r
 unique(correct.dat$status)
@@ -435,33 +447,94 @@ unique(correct.dat$status)
     ## Levels: Fished No-take
 
 ``` r
-table(correct.dat$site.new,correct.dat$status)
+table(correct.dat$site.new,correct.dat$year)
 ```
 
-    ##                           
-    ##                            Fished No-take
-    ##   City of York.Fished         148       0
-    ##   Fairbridge.Fished           119       0
-    ##   Geordie Bay.Fished          160       0
-    ##   Green Island.No-take          0     140
-    ##   Little Armstrong.No-take      0     179
-    ##   Little Salmon.No-take         0     130
-    ##   Mary Cove.No-take             0     149
-    ##   Parakeet Bay.Fished         130       0
-    ##   Parakeet Bay.No-take          0      30
-    ##   Parker Point.Fished         160       0
-    ##   Parker Point.No-take          0     165
-    ##   Ricey Beach.Fished          160       0
-    ##   Salmon Bay.Fished            30       0
-    ##   Salmon Bay.No-take            0     149
-    ##   Strickland Bay.Fished       165       0
-    ##   West Salmon.Fished          120       0
+    ##                                                  
+    ##                                                   2014 2015 2016 2018 2019 2020
+    ##   Armstrong Bay.Fished.City of York                 30   30   30   28   30   30
+    ##   Armstrong Bay.Fished.Geordie Bay                  30   40   30   30   30   30
+    ##   Armstrong Bay.Fished.Parakeet Bay                  0   30   30   40   30   30
+    ##   Armstrong Bay.Fished.Ricey Beach                  30   30   30   40   30   30
+    ##   Armstrong Bay.No-take.Little Armstrong            58   30   30   31   30    0
+    ##   Armstrong Bay.No-take.Little Armstrong Bay East    0    0    0    0    0   30
+    ##   Armstrong Bay.No-take.Little Armstrong Bay West    0    0    0    0    0   30
+    ##   Armstrong Bay.No-take.Parakeet Bay                 0    0   30    0    0    0
+    ##   Green Island.Fished.Salmon Bay                     0    0    0    0   30    0
+    ##   Green Island.Fished.Salmon Bay West                0    0    0    0    0   30
+    ##   Green Island.Fished.Stickland East                 0    0    0    0    0   20
+    ##   Green Island.Fished.Strickland Bay                25   40   30   40   30    0
+    ##   Green Island.Fished.West Salmon                   27   23   30   40    0    0
+    ##   Green Island.No-take.Green Island                 30   20   30   30   30   30
+    ##   Green Island.No-take.Mary Cove                    29   30   30   30   30   30
+    ##   Parker Point.Fished.Fairbridge                     0   29   30   30   30   20
+    ##   Parker Point.Fished.Parker point                   0    0    0    0    0   30
+    ##   Parker Point.Fished.Parker Point                  40   30   30   30   30    0
+    ##   Parker Point.No-take.East Salmon                   0    0    0    0    0   30
+    ##   Parker Point.No-take.Little Salmon                 0   30   30   39   31    0
+    ##   Parker Point.No-take.Parker point                  0    0    0    0    0   30
+    ##   Parker Point.No-take.Parker Point                 65   30   30   40    0    0
+    ##   Parker Point.No-take.Salmon Bay                   29   30   30   30   30    0
 
-Now make new varialbes for sum of legal and sub.legal. Make the data
-long format.
+Make corrections for 2020 data.
+
+Let’s check this with Jane.
 
 ``` r
-dat<-correct.dat%>%
+correct.dat.new<-correct.dat %>%
+ 
+#recode the site names
+  
+    dplyr::mutate(site = fct_recode(site,
+                          "Little Salmon" = "East Salmon",
+                          "Parker Point" = "Parker point",
+                          "West Salmon" = "Salmon Bay West",
+                          "West Salmon" = "Salmon Bay",
+                           "Strickland Bay" = "Stickland East"))%>%
+    
+  #filter out sites only done once
+    filter(!site%in%c(
+    "Armstrong Point",
+    "Longreach",
+    "Rocky Bay",
+    "Stark Bay",
+    "Parakeet Bay" ))%>%
+  
+  #remove the levels for the filtered facotrs
+    droplevels()%>%
+  
+  # Re-Make the new unique Site name.
+  dplyr::mutate(site.new=paste(sanctuary,status,site,sep="."))
+```
+
+Check our corrections for 2020
+
+``` r
+table(correct.dat.new$site.new,correct.dat.new$year)
+```
+
+    ##                                                  
+    ##                                                   2014 2015 2016 2018 2019 2020
+    ##   Armstrong Bay.Fished.City of York                 30   30   30   28   30   30
+    ##   Armstrong Bay.Fished.Geordie Bay                  30   40   30   30   30   30
+    ##   Armstrong Bay.Fished.Ricey Beach                  30   30   30   40   30   30
+    ##   Armstrong Bay.No-take.Little Armstrong            58   30   30   31   30    0
+    ##   Armstrong Bay.No-take.Little Armstrong Bay East    0    0    0    0    0   30
+    ##   Armstrong Bay.No-take.Little Armstrong Bay West    0    0    0    0    0   30
+    ##   Green Island.Fished.Strickland Bay                25   40   30   40   30   20
+    ##   Green Island.Fished.West Salmon                   27   23   30   40   30   30
+    ##   Green Island.No-take.Green Island                 30   20   30   30   30   30
+    ##   Green Island.No-take.Mary Cove                    29   30   30   30   30   30
+    ##   Parker Point.Fished.Fairbridge                     0   29   30   30   30   20
+    ##   Parker Point.Fished.Parker Point                  40   30   30   30   30   30
+    ##   Parker Point.No-take.Little Salmon                 0   30   30   39   31   30
+    ##   Parker Point.No-take.Parker Point                 65   30   30   40    0   30
+    ##   Parker Point.No-take.West Salmon                  29   30   30   30   30    0
+
+Now make new varialbes for sum of legal and sub.legal.
+
+``` r
+dat<-correct.dat.new%>%
   
   replace(is.na(.), 0)%>%
   
@@ -483,10 +556,8 @@ dat<-correct.dat%>%
   dplyr::mutate(sample.no=1:nrow(.))%>%
   
   # select the variables of interest
-  select(c(sample.no,year,date,sanctuary,status,site.new,complexity,algal.cover,legal,sub.legal,all))%>%
+  select(c(sample.no,year,date,sanctuary,status,site.new,complexity,depth,legal,sub.legal,all))%>%
   
-  # # # make the data long
-  gather(key="size.class",value="count",legal, sub.legal,all)%>%
   glimpse()
 ```
 
@@ -503,18 +574,40 @@ dat<-correct.dat%>%
     ##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
     ## This warning is displayed once per session.
 
-    ## Observations: 6,402
+    ## Observations: 2,344
+    ## Variables: 11
+    ## $ sample.no  <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
+    ## $ sanctuary  <fct> Armstrong Bay, Armstrong Bay, Armstrong Bay, Armstrong Bay…
+    ## $ status     <fct> No-take, No-take, No-take, No-take, No-take, No-take, No-t…
+    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
+    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ legal      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
+    ## $ sub.legal  <dbl> 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 17, 0, 2, 1, 0, 1, 0, 1, 1, …
+    ## $ all        <dbl> 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 17, 0, 3, 1, 0, 1, 0, 1, 1, …
+
+Make the data long format.
+
+``` r
+dat<-dat%>%
+  gather(key="size.class",value="count",legal, sub.legal,all)%>%
+  glimpse()
+```
+
+    ## Observations: 7,032
     ## Variables: 10
-    ## $ sample.no   <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-    ## $ year        <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 201…
-    ## $ date        <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:…
-    ## $ sanctuary   <fct> Armstrong Bay, Armstrong Bay, Armstrong Bay, Armstrong Ba…
-    ## $ status      <fct> No-take, No-take, No-take, No-take, No-take, No-take, No-…
-    ## $ site.new    <chr> "Little Armstrong.No-take", "Little Armstrong.No-take", "…
-    ## $ complexity  <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, …
-    ## $ algal.cover <dbl> 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 2, 2, …
-    ## $ size.class  <chr> "legal", "legal", "legal", "legal", "legal", "legal", "le…
-    ## $ count       <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, …
+    ## $ sample.no  <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
+    ## $ sanctuary  <fct> Armstrong Bay, Armstrong Bay, Armstrong Bay, Armstrong Bay…
+    ## $ status     <fct> No-take, No-take, No-take, No-take, No-take, No-take, No-t…
+    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
+    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal", "leg…
+    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
 
 Write the data
 

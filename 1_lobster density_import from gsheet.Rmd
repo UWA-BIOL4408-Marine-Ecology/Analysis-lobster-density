@@ -12,7 +12,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. Import lobster density data from a google sheet
 
-First we load some librarys
+We have to install two packages that are not pre-installed in ecocloud
+
+install.packages("googlesheets4")
+
+install.packages("here")
+
+
+Next we load some librarys
 ```{r libs1, message=FALSE, warning=FALSE}
 library(googlesheets4) #to read gsheet
 library(tidyr) #to tidy data
@@ -32,6 +39,8 @@ Read in the data from the google sheet and check it
 url <- "https://docs.google.com/spreadsheets/d/1Wqn7m2jopx11n5fdl9MHZAujRVkjBusdmIHq_gMhf0A"
 
 # Then we can read it in
+options(httr_oob_default=TRUE) # to allow access to googlesheets
+
 dat<-read_sheet(url, sheet = "lobster.density")%>%
   as_tibble()%>%
   select(-c('longitude','latitude','time','way.point','gps','group'))%>%
@@ -51,10 +60,21 @@ here()
 
 As long as the names on the folders are consistent this function will enable us to work across computers and operating systems.
 
-Let's create a "Data" driectory then use here() to make a shortcut to that "Data" directory.
+
+If you are using an ecocloud server - we will have to add folder names to the here() function - but this should work
+
+#here("workspace","Template-lobster-density","Data")
+
+Let's create a "Data" directory then use here() to make a shortcut to that "Data" directory.
 ```{r here, message=FALSE, warning=FALSE}
-dir.create(file.path(here(), "Data")) #create Plots folder
+dir.create(file.path(here(), "Data")) #create Data folder
+
 data.dir <- here("Data")
+
+#or for ecocloud
+#dir.create(file.path(here(), "workspace","Template-lobster-density","Data")) #create Data folder
+
+#data.dir <- here("workspace","Template-lobster-density","Data")
 ```
 
 

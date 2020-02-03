@@ -38,6 +38,9 @@ Use here() to make a shortcut to the "Data" directory.
 here()
 data.dir <- here("Data")
 
+# or for ecocloud
+#data.dir <- here("workspace","Template-lobster-density","Data")
+
 data.dir
 ```
 

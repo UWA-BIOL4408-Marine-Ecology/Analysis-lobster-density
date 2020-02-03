@@ -24,11 +24,25 @@ Set a study name
 study<-"lobster.density"
 ```
 
-Use here() to make a shortcut to the “Data” directory.
+Use here() to make a shortcut to the “Data”
+    directory.
+
+``` r
+here()
+```
+
+    ## [1] "/Users/00068010/GitHub/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density"
 
 ``` r
 data.dir <- here("Data")
+
+# or for ecocloud
+#data.dir <- here("workspace","Template-lobster-density","Data")
+
+data.dir
 ```
+
+    ## [1] "/Users/00068010/GitHub/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/Data"
 
 ## Read in the data and glimpse the data.
 
@@ -63,30 +77,45 @@ dat<-read_csv("lobster.density.csv")%>%
     ##   status = col_character(),
     ##   site.new = col_character(),
     ##   complexity = col_double(),
-    ##   algal.cover = col_double(),
+    ##   depth = col_double(),
     ##   size.class = col_character(),
     ##   count = col_double()
     ## )
 
-    ## Observations: 6,402
+    ## Observations: 7,032
     ## Variables: 10
-    ## $ sample.no   <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
-    ## $ year        <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 201…
-    ## $ date        <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:…
-    ## $ sanctuary   <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armst…
-    ## $ status      <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "N…
-    ## $ site.new    <chr> "Little Armstrong.No-take", "Little Armstrong.No-take", "…
-    ## $ complexity  <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, …
-    ## $ algal.cover <dbl> 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 2, 2, …
-    ## $ size.class  <chr> "legal", "legal", "legal", "legal", "legal", "legal", "le…
-    ## $ count       <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, …
+    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
+    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
+    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
+    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
+    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal", "leg…
+    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
 
 ## OR read from github and write to data folder
 
 ``` r
-dat<-read.csv(text=getURL("https://raw.githubusercontent.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/master/Data/lobster.density.csv"))
+dat.git<-read.csv(text=getURL("https://raw.githubusercontent.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/master/Data/lobster.density.csv"))%>%
+  glimpse()
+```
 
+    ## Observations: 7,032
+    ## Variables: 10
+    ## $ sample.no  <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <int> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <fct> 2014-01-26T16:00:00Z, 2014-01-26T16:00:00Z, 2014-01-26T16:…
+    ## $ sanctuary  <fct> Armstrong Bay, Armstrong Bay, Armstrong Bay, Armstrong Bay…
+    ## $ status     <fct> No-take, No-take, No-take, No-take, No-take, No-take, No-t…
+    ## $ site.new   <fct> Armstrong Bay.No-take.Little Armstrong, Armstrong Bay.No-t…
+    ## $ complexity <int> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ size.class <fct> legal, legal, legal, legal, legal, legal, legal, legal, le…
+    ## $ count      <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
 
+``` r
 setwd(data.dir) #set the directory
 dir() #look in the directory
 ```
@@ -196,7 +225,7 @@ better suited to showing zeros in the next script.
 
 Boxplots are not good for displaying count data, especially zero-rich
 count data. Boxplots are much better suited to display continous
-environmental data such as out estimates of habitat complexity.
+environmental data such as our estimates of habitat complexity.
 
 Our complexity data is only semi-continous and really ordered
 categorical data, but the boxplot can show us the patterns in this data.
@@ -210,6 +239,18 @@ ggplot(dat, aes(x=status, y=complexity)) +
 ```
 
 ![](3_lobster-density_basic-plots-to-check-data_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+And what does our depth data from 2020 look like?
+
+``` r
+ggplot(dat%>%filter(year==2020), aes(x=status, y=depth)) + 
+  geom_boxplot(outlier.shape = NA)+
+  geom_point(position = position_jitter(width = 0.3, h = 0),alpha = 1/4, size=1)+
+  stat_summary(fun.y=mean, geom="point", shape=2, size=4, colour="red")+ #adds mean
+  facet_grid(size.class~sanctuary)
+```
+
+![](3_lobster-density_basic-plots-to-check-data_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 Go back to
 [Analysis-lobster-density](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/README.md)

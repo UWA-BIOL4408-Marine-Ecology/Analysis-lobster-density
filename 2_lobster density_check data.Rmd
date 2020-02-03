@@ -33,6 +33,9 @@ study<-"lobster.density"
 Use here() to make a shortcut to the "Data" directory.
 ```{r here, message=FALSE, warning=FALSE}
 data.dir <- here("Data")
+
+#or for ecocloud
+#data.dir <- here("workspace","Template-lobster-density","Data")
 ```
 
 
@@ -103,7 +106,7 @@ This does not look consistent. Suggest you don't use this.
 
 
 Check measures of depth.
-```{r check cover, message=FALSE, warning=FALSE}
+```{r check depth, message=FALSE, warning=FALSE}
 unique(gsheet.dat$depth)
 
 summary(gsheet.dat$depth)
@@ -187,7 +190,7 @@ correct.dat<-gsheet.dat %>%
 
 
 Now we can check our corrections
-```{r recheck, message=FALSE, warning=FALSE}
+```{r , message=FALSE, warning=FALSE}
 
 glimpse(correct.dat)
 

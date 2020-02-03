@@ -51,6 +51,9 @@ se.max <- function(x) (mean(x)) + se(x) #to make SE max.
 Use here() to make a shortcut to the "Data" directory.
 ```{r here, message=FALSE, warning=FALSE}
 data.dir <- here("Data")
+
+# or for ecocloud
+#data.dir <- here("workspace","Template-lobster-density","Data")
 ```
 
 
@@ -59,6 +62,11 @@ Create a 'Plots' folder if you don't already have one and create a shortcut to i
 dir.create(file.path(here(), "Plots")) #create Plots folder
 
 plots.dir=here("Plots")
+
+# or for ecocloud
+#dir.create(file.path(here(), "workspace","Template-lobster-density","Plots"))
+#plots.dir <- here("workspace","Template-lobster-density","Plots")
+
 ```
 
 
