@@ -301,6 +301,26 @@ ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Armstrong Bay"),aes(x=year, 
 
 
 
+Armstrong - Sanctuary x Status - with data points
+```{r}
+glimpse(dat)
+
+ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Armstrong Bay"),aes(x=year, y=count,colour=status)) +
+    stat_summary(fun.y=mean, geom="point", colour="black") +
+    stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1) +
+  geom_jitter(alpha=0.25)+
+    facet_grid(site.new~.)+
+  theme(strip.text.y = element_text(angle=0))
+```
+
+
+
+
+
+
+
+
+
 Green - Sanctuary x Status
 ```{r}
 glimpse(dat)

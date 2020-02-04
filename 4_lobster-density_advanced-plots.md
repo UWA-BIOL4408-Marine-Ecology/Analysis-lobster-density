@@ -369,6 +369,36 @@ ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Armstrong Bay"),aes(x=year, 
 
 ![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
+Armstrong - Sanctuary x Status - with data points
+
+``` r
+glimpse(dat)
+```
+
+    ## Observations: 7,032
+    ## Variables: 10
+    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
+    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
+    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
+    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
+    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal", "leg…
+    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
+
+``` r
+ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Armstrong Bay"),aes(x=year, y=count,colour=status)) +
+    stat_summary(fun.y=mean, geom="point", colour="black") +
+    stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1) +
+  geom_jitter(alpha=0.25)+
+    facet_grid(site.new~.)+
+  theme(strip.text.y = element_text(angle=0))
+```
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+
 Green - Sanctuary x Status
 
 ``` r
@@ -396,7 +426,7 @@ ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Green Island"),aes(x=year, y
   theme(strip.text.y = element_text(angle=0))
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 Parker - Sanctuary x Status
 
@@ -425,4 +455,4 @@ ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Parker Point"),aes(x=year, y
   theme(strip.text.y = element_text(angle=0))
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
