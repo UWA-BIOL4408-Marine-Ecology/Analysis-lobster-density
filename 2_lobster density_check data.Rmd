@@ -46,10 +46,20 @@ setwd(data.dir)#this is our shortcut using here()
 dir()
 
 gsheet.dat<-read_csv("lobster.density.gsheet.csv")%>%
+  dplyr::mutate(site.new=paste(sanctuary,status,site,sep="."))%>%
   glimpse()
 
 ```
 This is wide format data.
+
+
+Check west salmon
+```{r}
+
+table(gsheet.dat$site.new,gsheet.dat$year)
+
+```
+
 
 
 Check for unique levels of status.
@@ -140,6 +150,11 @@ However, in this case we will make these corrections in our R import script so t
 
 We can use this list of corrections to go back and check and correct the raw data if we want.
 
+East salmon
+
+Armstrong - combine sties
+
+
 Make corrections and re-format.
 ```{r correct, message=FALSE, warning=FALSE}
 
@@ -156,19 +171,34 @@ correct.dat<-gsheet.dat %>%
 #recode the site names
   
     dplyr::mutate(site = fct_recode(site,
-                           "Salmon Bay" = "eastsalmon",
+                          "Little Salmon" = "East Salmon Bay",
+                           "Little Salmon" = "eastsalmon",
                            "City of York" = "City of York Bay",
                            "Ricey Beach" = "Ricey_Bay",
-                           "Salmon Bay" = "East_Salmon",
+                           "Little Salmon" = "East_Salmon",
+                           # "Salmon Bay" = "East Salmon",  #Maybe ? add in?
                            "Little Salmon" = "Little_Salmon",
                            "Parker Point" = "Poc_Reef",
                            "Green Island" = "Green_Island",
                            "Parakeet Bay" = "Parakeet_Bay",
-                           "Salmon Bay" = "West_Salmon_Bay",
+                           "West Salmon" = "West_Salmon_Bay",
+                           "West Salmon" = "Salmon Bay West",
+                           
+                  
                            "Little Armstrong" = "Little_Armstrong_Bay",
+                           "Little Armstrong" = "Little Armstrong Bay East",
+                            "Little Armstrong" = "Little Armstrong Bay West",
                            "Geordie Bay" = "Geordie_Bay",
                            "Mary Cove" = "Mary_Cove",
-                           "Strickland Bay" = "East_Strickland"))%>%
+                           "Strickland Bay" = "East_Strickland",
+                          
+                            "Little Salmon" = "East Salmon",
+                          "Parker Point" = "Parker point",
+                          "West Salmon" = "Salmon Bay West",
+                          "Little Salmon" = "Salmon Bay",
+                           "Strickland Bay" = "Stickland East"
+
+                          ))%>%
     
   #filter out sites only done once
     filter(!site%in%c(
@@ -210,54 +240,13 @@ Make corrections for 2020 data.
 
 Let's check this with Jane.
 
-```{r correct 2020, message=FALSE, warning=FALSE}
-
-correct.dat.new<-correct.dat %>%
- 
-#recode the site names
-  
-    dplyr::mutate(site = fct_recode(site,
-                          "Little Salmon" = "East Salmon",
-                          "Parker Point" = "Parker point",
-                          "West Salmon" = "Salmon Bay West",
-                          "West Salmon" = "Salmon Bay",
-                           "Strickland Bay" = "Stickland East"))%>%
-    
-  #filter out sites only done once
-    filter(!site%in%c(
-    "Armstrong Point",
-    "Longreach",
-    "Rocky Bay",
-    "Stark Bay",
-    "Parakeet Bay" ))%>%
-  
-  #remove the levels for the filtered facotrs
-    droplevels()%>%
-  
-  # Re-Make the new unique Site name.
-  dplyr::mutate(site.new=paste(sanctuary,status,site,sep="."))
-
-```
-
-
-Check our corrections for 2020
-```{r recheck, message=FALSE, warning=FALSE}
-
-table(correct.dat.new$site.new,correct.dat.new$year)
-
-
-```
-
-
-
-
 
 
 Now make new varialbes for sum of legal and sub.legal.
 
 ```{r make sum}
 
-dat<-correct.dat.new%>%
+dat<-correct.dat%>%
   
   replace(is.na(.), 0)%>%
   

@@ -44,11 +44,12 @@ dir()
 
 ``` r
 gsheet.dat<-read_csv("lobster.density.gsheet.csv")%>%
+  dplyr::mutate(site.new=paste(sanctuary,status,site,sep="."))%>%
   glimpse()
 ```
 
     ## Observations: 3,225
-    ## Variables: 39
+    ## Variables: 40
     ## $ year              <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 201…
     ## $ date              <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-…
     ## $ sanctuary         <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", …
@@ -88,8 +89,114 @@ gsheet.dat<-read_csv("lobster.density.gsheet.csv")%>%
     ## $ x140              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ x145              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ x150              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+    ## $ site.new          <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstron…
 
 This is wide format data.
+
+Check west salmon
+
+``` r
+table(gsheet.dat$site.new,gsheet.dat$year)
+```
+
+    ##                                              
+    ##                                               2014 2015 2016 2017 2018 2019
+    ##   Armstrong Bay.Fished.City of York             30   30   30   40   28    0
+    ##   Armstrong Bay.Fished.Geordie Bay              30   40   30   40   30    0
+    ##   Armstrong Bay.Fished.Longreach                 0   10    0    0    0    0
+    ##   Armstrong Bay.Fished.Parakeet Bay              0   30   30   40   40    0
+    ##   Armstrong Bay.Fished.Ricey Beach              30   30   30   40   40    0
+    ##   Armstrong Bay.Fished.Rocky Bay                 0   33    0    0    0    0
+    ##   Armstrong Bay.Fished.Stark Bay                 0   20    0    0    0    0
+    ##   Armstrong Bay.No-take.Armstrong Point         28    0    0    0    0    0
+    ##   Armstrong Bay.No-take.Little Armstrong        58   30   30   40   31    0
+    ##   Armstrong Bay.No-take.Parakeet Bay             0    0   30   40    0    0
+    ##   Armstrong.Fished.City of York                  0    0    0    0    0    0
+    ##   Armstrong.Fished.City of York Bay              0    0    0    0    0   30
+    ##   Armstrong.Fished.Geordie Bay                   0    0    0    0    0    0
+    ##   Armstrong.Fished.Geordie_Bay                   0    0    0    0    0   30
+    ##   Armstrong.Fished.Parakeet Bay                  0    0    0    0    0    0
+    ##   Armstrong.Fished.Parakeet_Bay                  0    0    0    0    0   30
+    ##   Armstrong.Fished.Ricey Beach                   0    0    0    0    0    0
+    ##   Armstrong.Fished.Ricey_Bay                     0    0    0    0    0   30
+    ##   Armstrong.No-take.Little Armstrong Bay East    0    0    0    0    0    0
+    ##   Armstrong.No-take.Little Armstrong Bay West    0    0    0    0    0    0
+    ##   Armstrong.No-Take.Little_Armstrong_Bay         0    0    0    0    0   30
+    ##   Green Is.Fished.Salmon Bay West                0    0    0    0    0    0
+    ##   Green Is.Fished.Stickland East                 0    0    0    0    0    0
+    ##   Green Is.No-take.Green Island                  0    0    0    0    0    0
+    ##   Green Is.No-take.Mary Cove                     0    0    0    0    0    0
+    ##   Green Island.Fished.Strickland Bay            25   40   30   40   40    0
+    ##   Green Island.Fished.West Salmon               27   23   30   40   40    0
+    ##   Green Island.No-take.Green Island             30   20   30   40   30    0
+    ##   Green Island.No-take.Mary Cove                29   30   30   40   30    0
+    ##   Green_Island.Fished.East_Strickland            0    0    0    0    0   30
+    ##   Green_Island.Fished.West_Salmon_Bay            0    0    0    0    0   30
+    ##   Green_Island.No-take.Green_Island              0    0    0    0    0   30
+    ##   Green_Island.No-Take.Mary_Cove                 0    0    0    0    0   30
+    ##   Parker Point.Fished.Fairbridge                 0   29   30   40   30    0
+    ##   Parker Point.Fished.Parker Point              40   30   30   40   30    0
+    ##   Parker Point.No-take.eastsalmon                0    0    0    0   30    0
+    ##   Parker Point.No-take.Little Salmon             0   30   30   40   39    0
+    ##   Parker Point.No-take.Parker Point             65   30   30   40   40    0
+    ##   Parker Point.No-take.Salmon Bay               29   30   30   40    0    0
+    ##   Parker Pt.Fished.Fairbridge                    0    0    0    0    0    0
+    ##   Parker Pt.Fished.Parker point                  0    0    0    0    0    0
+    ##   Parker Pt.No-take.East Salmon                  0    0    0    0    0    0
+    ##   Parker Pt.No-take.Parker point                 0    0    0    0    0    0
+    ##   Parker_Pt.Fished.Fairbridge                    0    0    0    0    0   30
+    ##   Parker_Pt.Fished.Poc_Reef                      0    0    0    0    0   30
+    ##   Parker_Pt.No-take.East_Salmon                  0    0    0    0    0   30
+    ##   Parker_Pt.No-take.Little_Salmon                0    0    0    0    0   31
+    ##                                              
+    ##                                               2020
+    ##   Armstrong Bay.Fished.City of York              0
+    ##   Armstrong Bay.Fished.Geordie Bay               0
+    ##   Armstrong Bay.Fished.Longreach                 0
+    ##   Armstrong Bay.Fished.Parakeet Bay              0
+    ##   Armstrong Bay.Fished.Ricey Beach               0
+    ##   Armstrong Bay.Fished.Rocky Bay                 0
+    ##   Armstrong Bay.Fished.Stark Bay                 0
+    ##   Armstrong Bay.No-take.Armstrong Point          0
+    ##   Armstrong Bay.No-take.Little Armstrong         0
+    ##   Armstrong Bay.No-take.Parakeet Bay             0
+    ##   Armstrong.Fished.City of York                 30
+    ##   Armstrong.Fished.City of York Bay              0
+    ##   Armstrong.Fished.Geordie Bay                  30
+    ##   Armstrong.Fished.Geordie_Bay                   0
+    ##   Armstrong.Fished.Parakeet Bay                 30
+    ##   Armstrong.Fished.Parakeet_Bay                  0
+    ##   Armstrong.Fished.Ricey Beach                  30
+    ##   Armstrong.Fished.Ricey_Bay                     0
+    ##   Armstrong.No-take.Little Armstrong Bay East   30
+    ##   Armstrong.No-take.Little Armstrong Bay West   30
+    ##   Armstrong.No-Take.Little_Armstrong_Bay         0
+    ##   Green Is.Fished.Salmon Bay West               30
+    ##   Green Is.Fished.Stickland East                20
+    ##   Green Is.No-take.Green Island                 30
+    ##   Green Is.No-take.Mary Cove                    30
+    ##   Green Island.Fished.Strickland Bay             0
+    ##   Green Island.Fished.West Salmon                0
+    ##   Green Island.No-take.Green Island              0
+    ##   Green Island.No-take.Mary Cove                 0
+    ##   Green_Island.Fished.East_Strickland            0
+    ##   Green_Island.Fished.West_Salmon_Bay            0
+    ##   Green_Island.No-take.Green_Island              0
+    ##   Green_Island.No-Take.Mary_Cove                 0
+    ##   Parker Point.Fished.Fairbridge                 0
+    ##   Parker Point.Fished.Parker Point               0
+    ##   Parker Point.No-take.eastsalmon                0
+    ##   Parker Point.No-take.Little Salmon             0
+    ##   Parker Point.No-take.Parker Point              0
+    ##   Parker Point.No-take.Salmon Bay                0
+    ##   Parker Pt.Fished.Fairbridge                   20
+    ##   Parker Pt.Fished.Parker point                 30
+    ##   Parker Pt.No-take.East Salmon                 30
+    ##   Parker Pt.No-take.Parker point                30
+    ##   Parker_Pt.Fished.Fairbridge                    0
+    ##   Parker_Pt.Fished.Poc_Reef                      0
+    ##   Parker_Pt.No-take.East_Salmon                  0
+    ##   Parker_Pt.No-take.Little_Salmon                0
 
 Check for unique levels of status.
 
@@ -320,6 +427,10 @@ changes/corrections we are making to the data.
 We can use this list of corrections to go back and check and correct the
 raw data if we want.
 
+East salmon
+
+Armstrong - combine sties
+
 Make corrections and re-format.
 
 ``` r
@@ -336,19 +447,34 @@ correct.dat<-gsheet.dat %>%
 #recode the site names
   
     dplyr::mutate(site = fct_recode(site,
-                           "Salmon Bay" = "eastsalmon",
+                          "Little Salmon" = "East Salmon Bay",
+                           "Little Salmon" = "eastsalmon",
                            "City of York" = "City of York Bay",
                            "Ricey Beach" = "Ricey_Bay",
-                           "Salmon Bay" = "East_Salmon",
+                           "Little Salmon" = "East_Salmon",
+                           # "Salmon Bay" = "East Salmon",  #Maybe ? add in?
                            "Little Salmon" = "Little_Salmon",
                            "Parker Point" = "Poc_Reef",
                            "Green Island" = "Green_Island",
                            "Parakeet Bay" = "Parakeet_Bay",
-                           "Salmon Bay" = "West_Salmon_Bay",
+                           "West Salmon" = "West_Salmon_Bay",
+                           "West Salmon" = "Salmon Bay West",
+                           
+                  
                            "Little Armstrong" = "Little_Armstrong_Bay",
+                           "Little Armstrong" = "Little Armstrong Bay East",
+                            "Little Armstrong" = "Little Armstrong Bay West",
                            "Geordie Bay" = "Geordie_Bay",
                            "Mary Cove" = "Mary_Cove",
-                           "Strickland Bay" = "East_Strickland"))%>%
+                           "Strickland Bay" = "East_Strickland",
+                          
+                            "Little Salmon" = "East Salmon",
+                          "Parker Point" = "Parker point",
+                          "West Salmon" = "Salmon Bay West",
+                          "Little Salmon" = "Salmon Bay",
+                           "Strickland Bay" = "Stickland East"
+
+                          ))%>%
     
   #filter out sites only done once
     filter(!site%in%c(
@@ -427,17 +553,10 @@ unique(correct.dat$sanctuary)
 unique(correct.dat$site) 
 ```
 
-    ##  [1] Little Armstrong          City of York             
-    ##  [3] Ricey Beach               Parker Point             
-    ##  [5] Salmon Bay                Green Island             
-    ##  [7] Mary Cove                 Geordie Bay              
-    ##  [9] West Salmon               Strickland Bay           
-    ## [11] Parakeet Bay              Fairbridge               
-    ## [13] Little Salmon             East Salmon              
-    ## [15] Parker point              Stickland East           
-    ## [17] Salmon Bay West           Little Armstrong Bay East
-    ## [19] Little Armstrong Bay West
-    ## 19 Levels: City of York East Salmon Salmon Bay Strickland Bay ... West Salmon
+    ##  [1] Little Armstrong City of York     Ricey Beach      Parker Point    
+    ##  [5] Little Salmon    Green Island     Mary Cove        Geordie Bay     
+    ##  [9] West Salmon      Strickland Bay   Parakeet Bay     Fairbridge      
+    ## 12 Levels: City of York Little Salmon Strickland Bay Fairbridge ... West Salmon
 
 ``` r
 unique(correct.dat$status)
@@ -450,91 +569,31 @@ unique(correct.dat$status)
 table(correct.dat$site.new,correct.dat$year)
 ```
 
-    ##                                                  
-    ##                                                   2014 2015 2016 2018 2019 2020
-    ##   Armstrong Bay.Fished.City of York                 30   30   30   28   30   30
-    ##   Armstrong Bay.Fished.Geordie Bay                  30   40   30   30   30   30
-    ##   Armstrong Bay.Fished.Parakeet Bay                  0   30   30   40   30   30
-    ##   Armstrong Bay.Fished.Ricey Beach                  30   30   30   40   30   30
-    ##   Armstrong Bay.No-take.Little Armstrong            58   30   30   31   30    0
-    ##   Armstrong Bay.No-take.Little Armstrong Bay East    0    0    0    0    0   30
-    ##   Armstrong Bay.No-take.Little Armstrong Bay West    0    0    0    0    0   30
-    ##   Armstrong Bay.No-take.Parakeet Bay                 0    0   30    0    0    0
-    ##   Green Island.Fished.Salmon Bay                     0    0    0    0   30    0
-    ##   Green Island.Fished.Salmon Bay West                0    0    0    0    0   30
-    ##   Green Island.Fished.Stickland East                 0    0    0    0    0   20
-    ##   Green Island.Fished.Strickland Bay                25   40   30   40   30    0
-    ##   Green Island.Fished.West Salmon                   27   23   30   40    0    0
-    ##   Green Island.No-take.Green Island                 30   20   30   30   30   30
-    ##   Green Island.No-take.Mary Cove                    29   30   30   30   30   30
-    ##   Parker Point.Fished.Fairbridge                     0   29   30   30   30   20
-    ##   Parker Point.Fished.Parker point                   0    0    0    0    0   30
-    ##   Parker Point.Fished.Parker Point                  40   30   30   30   30    0
-    ##   Parker Point.No-take.East Salmon                   0    0    0    0    0   30
-    ##   Parker Point.No-take.Little Salmon                 0   30   30   39   31    0
-    ##   Parker Point.No-take.Parker point                  0    0    0    0    0   30
-    ##   Parker Point.No-take.Parker Point                 65   30   30   40    0    0
-    ##   Parker Point.No-take.Salmon Bay                   29   30   30   30   30    0
+    ##                                         
+    ##                                          2014 2015 2016 2018 2019 2020
+    ##   Armstrong Bay.Fished.City of York        30   30   30   28   30   30
+    ##   Armstrong Bay.Fished.Geordie Bay         30   40   30   30   30   30
+    ##   Armstrong Bay.Fished.Parakeet Bay         0   30   30   40   30   30
+    ##   Armstrong Bay.Fished.Ricey Beach         30   30   30   40   30   30
+    ##   Armstrong Bay.No-take.Little Armstrong   58   30   30   31   30   60
+    ##   Armstrong Bay.No-take.Parakeet Bay        0    0   30    0    0    0
+    ##   Green Island.Fished.Strickland Bay       25   40   30   40   30   20
+    ##   Green Island.Fished.West Salmon          27   23   30   40   30   30
+    ##   Green Island.No-take.Green Island        30   20   30   30   30   30
+    ##   Green Island.No-take.Mary Cove           29   30   30   30   30   30
+    ##   Parker Point.Fished.Fairbridge            0   29   30   30   30   20
+    ##   Parker Point.Fished.Parker Point         40   30   30   30   30   30
+    ##   Parker Point.No-take.Little Salmon       29   60   60   69   61   30
+    ##   Parker Point.No-take.Parker Point        65   30   30   40    0   30
 
 Make corrections for 2020 data.
 
 Let’s check this with Jane.
 
-``` r
-correct.dat.new<-correct.dat %>%
- 
-#recode the site names
-  
-    dplyr::mutate(site = fct_recode(site,
-                          "Little Salmon" = "East Salmon",
-                          "Parker Point" = "Parker point",
-                          "West Salmon" = "Salmon Bay West",
-                          "West Salmon" = "Salmon Bay",
-                           "Strickland Bay" = "Stickland East"))%>%
-    
-  #filter out sites only done once
-    filter(!site%in%c(
-    "Armstrong Point",
-    "Longreach",
-    "Rocky Bay",
-    "Stark Bay",
-    "Parakeet Bay" ))%>%
-  
-  #remove the levels for the filtered facotrs
-    droplevels()%>%
-  
-  # Re-Make the new unique Site name.
-  dplyr::mutate(site.new=paste(sanctuary,status,site,sep="."))
-```
-
-Check our corrections for 2020
-
-``` r
-table(correct.dat.new$site.new,correct.dat.new$year)
-```
-
-    ##                                                  
-    ##                                                   2014 2015 2016 2018 2019 2020
-    ##   Armstrong Bay.Fished.City of York                 30   30   30   28   30   30
-    ##   Armstrong Bay.Fished.Geordie Bay                  30   40   30   30   30   30
-    ##   Armstrong Bay.Fished.Ricey Beach                  30   30   30   40   30   30
-    ##   Armstrong Bay.No-take.Little Armstrong            58   30   30   31   30    0
-    ##   Armstrong Bay.No-take.Little Armstrong Bay East    0    0    0    0    0   30
-    ##   Armstrong Bay.No-take.Little Armstrong Bay West    0    0    0    0    0   30
-    ##   Green Island.Fished.Strickland Bay                25   40   30   40   30   20
-    ##   Green Island.Fished.West Salmon                   27   23   30   40   30   30
-    ##   Green Island.No-take.Green Island                 30   20   30   30   30   30
-    ##   Green Island.No-take.Mary Cove                    29   30   30   30   30   30
-    ##   Parker Point.Fished.Fairbridge                     0   29   30   30   30   20
-    ##   Parker Point.Fished.Parker Point                  40   30   30   30   30   30
-    ##   Parker Point.No-take.Little Salmon                 0   30   30   39   31   30
-    ##   Parker Point.No-take.Parker Point                 65   30   30   40    0   30
-    ##   Parker Point.No-take.West Salmon                  29   30   30   30   30    0
-
 Now make new varialbes for sum of legal and sub.legal.
 
 ``` r
-dat<-correct.dat.new%>%
+dat<-correct.dat%>%
   
   replace(is.na(.), 0)%>%
   
@@ -574,7 +633,7 @@ dat<-correct.dat.new%>%
     ##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
     ## This warning is displayed once per session.
 
-    ## Observations: 2,344
+    ## Observations: 2,534
     ## Variables: 11
     ## $ sample.no  <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
@@ -596,7 +655,7 @@ dat<-dat%>%
   glimpse()
 ```
 
-    ## Observations: 7,032
+    ## Observations: 7,602
     ## Variables: 10
     ## $ sample.no  <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
