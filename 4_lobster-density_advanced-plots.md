@@ -473,7 +473,7 @@ SE
 SE
 
 ``` r
- ggplot(dat%>%filter(size.class=="legal"), aes(x=complexity, y=count,colour=status)) + 
+ ggplot(dat%>%filter(size.class=="legal"&year=="2018"), aes(x=complexity, y=count,colour=status)) + 
     geom_smooth(method=lm, size=0.5,se=T)+
     # coord_cartesian(ylim = c(0, 3), expand = FALSE)+
   geom_jitter(alpha=0.25)+
