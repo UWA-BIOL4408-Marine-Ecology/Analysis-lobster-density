@@ -468,3 +468,15 @@ SE
 ```
 
 ![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+
+2018 - St x Complexity with an incorrect
+SE
+
+``` r
+ ggplot(dat%>%filter(size.class=="legal"), aes(x=complexity, y=count,colour=status)) + 
+    geom_smooth(method=lm, size=0.5,se=T)+
+    coord_cartesian(ylim = c(0, 3), expand = FALSE)+
+  ggtitle("incorrect SE")
+```
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
