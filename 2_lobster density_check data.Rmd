@@ -205,7 +205,8 @@ correct.dat<-gsheet.dat %>%
     "Armstrong Point",
     "Longreach",
     "Rocky Bay",
-    "Stark Bay"))%>%
+    "Stark Bay",
+    "Parakeet Bay"))%>%
   
   #filter out suspicous year  
     filter(!year==2017)%>%
