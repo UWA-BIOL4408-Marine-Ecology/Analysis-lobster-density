@@ -456,3 +456,15 @@ ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Parker Point"),aes(x=year, y
 ```
 
 ![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+
+all - Year x Sanctuary with an incorrect
+SE
+
+``` r
+ ggplot(dat%>%filter(size.class=="legal"), aes(x=year, y=count,colour=status)) + 
+    geom_smooth(method=lm, size=0.5,se=T)+
+    coord_cartesian(ylim = c(0, 3), expand = FALSE)+
+  ggtitle("incorrect SE")
+```
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
