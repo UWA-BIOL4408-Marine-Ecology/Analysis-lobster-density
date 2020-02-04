@@ -481,7 +481,8 @@ correct.dat<-gsheet.dat %>%
     "Armstrong Point",
     "Longreach",
     "Rocky Bay",
-    "Stark Bay"))%>%
+    "Stark Bay",
+    "Parakeet Bay"))%>%
   
   #filter out suspicous year  
     filter(!year==2017)%>%
@@ -499,7 +500,7 @@ Now we can check our corrections
 glimpse(correct.dat)
 ```
 
-    ## Observations: 2,534
+    ## Observations: 2,344
     ## Variables: 40
     ## $ year              <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 201…
     ## $ date              <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-…
@@ -555,8 +556,8 @@ unique(correct.dat$site)
 
     ##  [1] Little Armstrong City of York     Ricey Beach      Parker Point    
     ##  [5] Little Salmon    Green Island     Mary Cove        Geordie Bay     
-    ##  [9] West Salmon      Strickland Bay   Parakeet Bay     Fairbridge      
-    ## 12 Levels: City of York Little Salmon Strickland Bay Fairbridge ... West Salmon
+    ##  [9] West Salmon      Strickland Bay   Fairbridge      
+    ## 11 Levels: City of York Little Salmon Strickland Bay Fairbridge ... West Salmon
 
 ``` r
 unique(correct.dat$status)
@@ -573,10 +574,8 @@ table(correct.dat$site.new,correct.dat$year)
     ##                                          2014 2015 2016 2018 2019 2020
     ##   Armstrong Bay.Fished.City of York        30   30   30   28   30   30
     ##   Armstrong Bay.Fished.Geordie Bay         30   40   30   30   30   30
-    ##   Armstrong Bay.Fished.Parakeet Bay         0   30   30   40   30   30
     ##   Armstrong Bay.Fished.Ricey Beach         30   30   30   40   30   30
     ##   Armstrong Bay.No-take.Little Armstrong   58   30   30   31   30   60
-    ##   Armstrong Bay.No-take.Parakeet Bay        0    0   30    0    0    0
     ##   Green Island.Fished.Strickland Bay       25   40   30   40   30   20
     ##   Green Island.Fished.West Salmon          27   23   30   40   30   30
     ##   Green Island.No-take.Green Island        30   20   30   30   30   30
@@ -633,7 +632,7 @@ dat<-correct.dat%>%
     ##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
     ## This warning is displayed once per session.
 
-    ## Observations: 2,534
+    ## Observations: 2,344
     ## Variables: 11
     ## $ sample.no  <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
@@ -655,7 +654,7 @@ dat<-dat%>%
   glimpse()
 ```
 
-    ## Observations: 7,602
+    ## Observations: 7,032
     ## Variables: 10
     ## $ sample.no  <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
