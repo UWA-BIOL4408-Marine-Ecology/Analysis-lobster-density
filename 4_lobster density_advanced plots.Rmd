@@ -72,6 +72,7 @@ plots.dir=here("Plots")
 
 Read in data for plotting
 ```{r read, message=TRUE, warning=FALSE}
+data.dir <- here("Data")
 setwd(data.dir)#this is out shortcut using here()
 dir()
 
@@ -282,5 +283,45 @@ No one worries about this with most ANOVA analyses :)
 Go back to [Analysis-lobster-density](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/README.md)
 
 Go forward to [5_lobster-density_format-for-PRIMER](https://github.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/blob/master/5_lobster-density_format-for-PRIMER.md)
+
+
+
+
+
+Armstrong - Sanctuary x Status
+```{r}
+glimpse(dat)
+
+ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Armstrong Bay"),aes(x=year, y=count,colour=status)) +
+    stat_summary(fun.y=mean, geom="point", colour="black") +
+    stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1) +
+    facet_grid(site.new~.)+
+  theme(strip.text.y = element_text(angle=0))
+```
+
+
+
+Green - Sanctuary x Status
+```{r}
+glimpse(dat)
+
+ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Green Island"),aes(x=year, y=count,colour=status)) +
+    stat_summary(fun.y=mean, geom="point", colour="black") +
+    stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1) +
+    facet_grid(site.new~.)+
+  theme(strip.text.y = element_text(angle=0))
+```
+
+Parker - Sanctuary x Status
+```{r}
+glimpse(dat)
+
+ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Parker Point"),aes(x=year, y=count,colour=status)) +
+    stat_summary(fun.y=mean, geom="point", colour="black") +
+    stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1) +
+    facet_grid(site.new~.)+
+  theme(strip.text.y = element_text(angle=0))
+```
+
 
 
