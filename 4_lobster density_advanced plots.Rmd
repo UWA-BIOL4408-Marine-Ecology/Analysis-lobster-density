@@ -223,6 +223,23 @@ ggplot(dat%>%filter(size.class=="legal"), aes(x=year, y=count,colour=status)) +
 ```
 
 
+All years - Year x Status
+
+
+```{r echo=TRUE}
+glimpse(dat)
+unique(dat$size.class)
+
+ggplot(dat%>%filter(size.class=="sub.legal"), aes(x=year, y=count,colour=status)) + 
+  stat_summary(fun.y=mean, geom="point") +
+  stat_summary(fun.y=mean, geom="line") +
+  stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1)+
+  theme_bw()
+```
+
+
+
+
 All years - complexity x Sanctuary x Status
 ```{r}
 ggplot(dat%>%filter(size.class=="legal"), aes(x=complexity, y=count,colour=status)) + 
