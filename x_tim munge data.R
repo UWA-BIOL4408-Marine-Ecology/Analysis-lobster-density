@@ -1,4 +1,6 @@
 
+library(tidyr)
+
 
 url <- "https://docs.google.com/spreadsheets/d/1Wqn7m2jopx11n5fdl9MHZAujRVkjBusdmIHq_gMhf0A"
 
@@ -28,12 +30,15 @@ dat.new2<-dat.new%>%
   mutate(Group=as.numeric(as.character(unlist(Group))))%>%
   mutate(size=ceiling(size/5)*5)%>%
   mutate(count=1)%>%
-  # pivot_wider(names_from = size, values_from = WRL)%>%
+  group_by(date,Group,site,status,replicate,size,complexity,algal.cover,depth)%>%
+  summarise(count=sum(count))%>%
+  pivot_wider(names_from = size, values_from = count)%>%
+  mutate_at(vars("0":"100"),  replace_na, '0')%>%
+rename_at(vars("0":"100"),funs(paste0("x", .)))%>%
+
+
+
   glimpse()
-
-summarise
-
-
 
 
 

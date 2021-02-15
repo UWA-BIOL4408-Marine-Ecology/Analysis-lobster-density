@@ -121,7 +121,7 @@ unique(gsheet.dat$depth)
 
 summary(gsheet.dat$depth)
 
-unique(filter(gsheet.dat,year=="2020")$depth)
+unique(filter(gsheet.dat,year=="2021")$depth)
 
 ```
 This looks reasonable.
@@ -160,15 +160,13 @@ Make corrections and re-format.
 
 correct.dat<-gsheet.dat %>%
   dplyr::mutate(status = fct_recode(status,
-                                    "No-take" = "No-Take"))%>%
-  dplyr::mutate(sanctuary = fct_recode(sanctuary,
-                                    "Parker Point" = "Parker_Pt",
-                                    "Green Island" = "Green_Island",
-                                    "Armstrong Bay" = "Armstrong",
-                                    "Green Island" = "Green Is",
-                                    "Parker Point" = "Parker Pt"))%>%
+                                    "No-take" = "No-Take",
+                                    "No-take" = "In",
+                                    "Fished" = "Out"))%>%
+
   
 #recode the site names
+  
   
     dplyr::mutate(site = fct_recode(site,
                           "Little Salmon" = "East Salmon Bay",
@@ -180,11 +178,14 @@ correct.dat<-gsheet.dat %>%
                            "Little Salmon" = "Little_Salmon",
                            "Parker Point" = "Poc_Reef",
                            "Green Island" = "Green_Island",
+                           "Green Island" = "Green Island IN",
                            "Parakeet Bay" = "Parakeet_Bay",
                            "West Salmon" = "West_Salmon_Bay",
                            "West Salmon" = "Salmon Bay West",
-                           
-                  
+                          "Little Salmon" = "Salmon East",
+                          "West Salmon" = "Salmon West",
+                            "Geordie Bay" =	"Geordie  Bay",
+                          "Strickland Bay"	=	"Strickland East",
                            "Little Armstrong" = "Little_Armstrong_Bay",
                            "Little Armstrong" = "Little Armstrong Bay East",
                             "Little Armstrong" = "Little Armstrong Bay West",
@@ -200,6 +201,31 @@ correct.dat<-gsheet.dat %>%
 
                           ))%>%
     
+  
+  # # # # addin missing sanctuary names
+  # # # 
+  mutate(sanctuary = if_else(site == "Little Armstrong",   "Armstrong Bay", sanctuary)) %>%
+  mutate(sanctuary = if_else(site == "Parker Point",   "Parker Point", sanctuary)) %>%
+  mutate(sanctuary = if_else(site == "Little Salmon",   "Parker Point", sanctuary)) %>%
+  mutate(sanctuary = if_else(site == "West Salmon",   "Green Island", sanctuary)) %>%
+  mutate(sanctuary = if_else(site == "Fairbridge",   "Parker Point", sanctuary)) %>%
+  mutate(sanctuary = if_else(site == "Geordie Bay",   "Armstrong Bay", sanctuary)) %>%
+  mutate(sanctuary = if_else(site == "Strickland Bay",   "Green Island", sanctuary)) %>%
+   mutate(sanctuary = if_else(site == "Green Island",   "Green Island", sanctuary)) %>%
+
+
+  
+  
+  dplyr::mutate(sanctuary = fct_recode(sanctuary,
+                                    "Parker Point" = "Parker_Pt",
+                                    "Green Island" = "Green_Island",
+                                    "Armstrong Bay" = "Armstrong",
+                                    "Green Island" = "Green Is",
+                                    "Parker Point" = "Parker Pt"))%>%
+  
+  
+  
+  
   #filter out sites only done once
     filter(!site%in%c(
     "Armstrong Point",
@@ -215,7 +241,9 @@ correct.dat<-gsheet.dat %>%
     droplevels()%>%
   
   # Make a new unique Site name - to account for Parker Point being used for inside and outside the NTZ.
-  dplyr::mutate(site.new=paste(sanctuary,status,site,sep="."))
+  dplyr::mutate(site.new=paste(sanctuary,status,site,sep="."))%>%
+    mutate_at(vars("x20":"x150"),  replace_na, '0')%>%
+  glimpse()
 
 ```
 
@@ -237,9 +265,9 @@ table(correct.dat$site.new,correct.dat$year)
 ```
 
 
-Make corrections for 2020 data.
+Make corrections for 2021 data.
 
-Let's check this with Jane.
+Let's check this with Jane. See Green Island.No-take.West Salmon - this has always been fished?
 
 
 
@@ -251,16 +279,19 @@ dat<-correct.dat%>%
   
   replace(is.na(.), 0)%>%
   
+  mutate_at(vars("x20":"x150"), funs(as.numeric(as.character(.))))%>%
+
+  
   mutate_at(vars(starts_with("x")), funs(ifelse(is.na(.),0,.)))%>%
   mutate_at(vars(starts_with("unsi")), funs(ifelse(is.na(.),0,.)))%>%
   mutate_at(vars(starts_with("legal")), funs(ifelse(is.na(.),0,.)))%>%
   mutate_at(vars(starts_with("sub")), funs(ifelse(is.na(.),0,.)))%>%
   
   # make the legal sum
-  dplyr::mutate(legal=(legal.unsized+x80+x85+x90+x95+x100+x105+x110+x115+x120+x125+x130+x135+x140+x145+x150))%>%
+  dplyr::mutate(legal=(legal.unsized+x75+x80+x85+x90+x95+x100+x105+x110+x115+x120+x125+x130+x135+x140+x145+x150))%>%
   
   # make the sub.legal sum
-  dplyr::mutate(sub.legal=(sublegal.unsized+x25+x30+x35+x40+x45+x50+x55+x60+x65+x70+x75))%>%
+  dplyr::mutate(sub.legal=(sublegal.unsized+x20+x25+x30+x35+x40+x45+x50+x55+x60+x65+x70))%>%
   
   # make an all sum
   dplyr::mutate(all=(legal+sub.legal+unsized))%>%

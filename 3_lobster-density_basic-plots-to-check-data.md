@@ -60,7 +60,8 @@ setwd(data.dir)#this is out shortcut using here()
 dir()
 ```
 
-    ## [1] "lobster.density.csv"        "lobster.density.gsheet.csv"
+    ## [1] "dat.new2.csv"               "lobster.density.csv"       
+    ## [3] "lobster.density.gsheet.csv"
 
 ``` r
 dat<-read_csv("lobster.density.csv")%>%
@@ -81,7 +82,7 @@ dat<-read_csv("lobster.density.csv")%>%
     ##   count = col_double()
     ## )
 
-    ## Observations: 7,032
+    ## Observations: 7,905
     ## Variables: 10
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
@@ -119,7 +120,8 @@ setwd(data.dir) #set the directory
 dir() #look in the directory
 ```
 
-    ## [1] "lobster.density.csv"        "lobster.density.gsheet.csv"
+    ## [1] "dat.new2.csv"               "lobster.density.csv"       
+    ## [3] "lobster.density.gsheet.csv"
 
 ``` r
 # Write dat using study name
@@ -239,10 +241,10 @@ ggplot(dat, aes(x=status, y=complexity)) +
 
 ![](3_lobster-density_basic-plots-to-check-data_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
-And what does our depth data from 2020 look like?
+And what does our depth data from 2021 look like?
 
 ``` r
-ggplot(dat%>%filter(year==2020), aes(x=status, y=depth)) + 
+ggplot(dat%>%filter(year==2021), aes(x=status, y=depth)) + 
   geom_boxplot(outlier.shape = NA)+
   geom_point(position = position_jitter(width = 0.3, h = 0),alpha = 1/4, size=1)+
   stat_summary(fun.y=mean, geom="point", shape=2, size=4, colour="red")+ #adds mean

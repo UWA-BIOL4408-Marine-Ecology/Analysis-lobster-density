@@ -109,7 +109,8 @@ setwd(data.dir)#this is out shortcut using here()
 dir()
 ```
 
-    ## [1] "lobster.density.csv"        "lobster.density.gsheet.csv"
+    ## [1] "dat.new2.csv"               "lobster.density.csv"       
+    ## [3] "lobster.density.gsheet.csv"
 
 ``` r
 dat<-read_csv("lobster.density.csv")%>%
@@ -130,7 +131,7 @@ dat<-read_csv("lobster.density.csv")%>%
     ##   count = col_double()
     ## )
 
-    ## Observations: 7,032
+    ## Observations: 7,905
     ## Variables: 10
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
@@ -152,7 +153,7 @@ response<-dat%>%
   dplyr::glimpse()
 ```
 
-    ## Observations: 2,344
+    ## Observations: 2,635
     ## Variables: 4
     ## $ sample.no <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…
     ## $ legal     <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, …
@@ -168,7 +169,7 @@ covariates<-dat%>%
   dplyr::glimpse()
 ```
 
-    ## Observations: 2,344
+    ## Observations: 2,635
     ## Variables: 4
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
     ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2,…
@@ -184,7 +185,7 @@ factors<-dat%>%
   glimpse()
 ```
 
-    ## Observations: 2,344
+    ## Observations: 2,635
     ## Variables: 5
     ## $ sample.no <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…
     ## $ sanctuary <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Ar…
@@ -203,7 +204,7 @@ response.factors<-factors%>%
   glimpse()
 ```
 
-    ## Observations: 2,344
+    ## Observations: 2,635
     ## Variables: 9
     ## $ sample.no <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…
     ## $ legal     <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, …
@@ -225,7 +226,7 @@ covariate.factors<-covariates%>%
   glimpse()
 ```
 
-    ## Observations: 2,344
+    ## Observations: 2,635
     ## Variables: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
     ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2,…

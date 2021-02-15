@@ -55,8 +55,8 @@ dat<-read_sheet(url, sheet = "lobster.density")%>%
 
     ## Range "'lobster.density'"
 
-    ## Observations: 3,225
-    ## Variables: 39
+    ## Observations: 3,516
+    ## Variables: 40
     ## $ year              <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
     ## $ date              <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 201…
     ## $ sanctuary         <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong B…
@@ -70,6 +70,7 @@ dat<-read_sheet(url, sheet = "lobster.density")%>%
     ## $ unsized           <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
     ## $ legal.unsized     <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
     ## $ sublegal.unsized  <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ x20               <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
     ## $ x25               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
     ## $ x30               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
     ## $ x35               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0…
@@ -96,6 +97,15 @@ dat<-read_sheet(url, sheet = "lobster.density")%>%
     ## $ x140              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
     ## $ x145              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
     ## $ x150              <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+
+Check we have all ther years of data\!
+
+``` r
+summary(dat$year)
+```
+
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    ##    2014    2015    2017    2017    2019    2021
 
 Now we need to save a copy of the data.
 
@@ -141,7 +151,8 @@ setwd(data.dir)#this is our shortcut using here()
 dir()
 ```
 
-    ## [1] "lobster.density.csv"        "lobster.density.gsheet.csv"
+    ## [1] "dat.new2.csv"               "lobster.density.csv"       
+    ## [3] "lobster.density.gsheet.csv"
 
 ``` r
 write_csv(dat,paste(study,"gsheet","csv",sep = "."))

@@ -72,7 +72,8 @@ setwd(data.dir)#this is out shortcut using here()
 dir()
 ```
 
-    ## [1] "lobster.density.csv"        "lobster.density.gsheet.csv"
+    ## [1] "dat.new2.csv"               "lobster.density.csv"       
+    ## [3] "lobster.density.gsheet.csv"
 
 ``` r
 dat<-read_csv("lobster.density.csv")%>%
@@ -93,7 +94,7 @@ dat<-read_csv("lobster.density.csv")%>%
     ##   count = col_double()
     ## )
 
-    ## Observations: 7,032
+    ## Observations: 7,905
     ## Variables: 10
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
@@ -261,7 +262,7 @@ All years - Year x Status
 glimpse(dat)
 ```
 
-    ## Observations: 7,032
+    ## Observations: 7,905
     ## Variables: 10
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
@@ -306,7 +307,7 @@ ggplot(dat%>%filter(size.class=="legal"), aes(x=complexity, y=count,colour=statu
 Status
 
 ``` r
-ggplot(dat%>%filter(size.class=="legal"&year==2020),aes(x=status, y=count,fill=status)) +
+ggplot(dat%>%filter(size.class=="legal"&year==2021),aes(x=status, y=count,fill=status)) +
     stat_summary(fun.y=mean, geom="bar", colour="black") +
     stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1) +
     facet_grid(.~sanctuary)
@@ -318,7 +319,7 @@ ggplot(dat%>%filter(size.class=="legal"&year==2020),aes(x=status, y=count,fill=s
 Status
 
 ``` r
- ggplot(dat%>%filter(size.class=="legal"&year==2020), aes(x=complexity, y=count,colour=sanctuary)) + 
+ ggplot(dat%>%filter(size.class=="legal"&year==2021), aes(x=complexity, y=count,colour=sanctuary)) + 
     geom_smooth(method=lm, size=0.5,se=F)+
     coord_cartesian(ylim = c(0, 0.5), expand = FALSE)+
   facet_grid(.~status)
@@ -326,11 +327,11 @@ Status
 
 ![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
-2020 - Depth x
+2021 - Depth x
 Status
 
 ``` r
- ggplot(dat%>%filter(size.class=="legal"&year==2020), aes(x=depth, y=count,colour=sanctuary)) + 
+ ggplot(dat%>%filter(size.class=="legal"&year==2021), aes(x=depth, y=count,colour=sanctuary)) + 
     geom_smooth(method=lm, size=0.5,se=F)+
     coord_cartesian(ylim = c(0, 0.5), expand = FALSE)+
   facet_grid(.~status)
@@ -355,7 +356,7 @@ geom\_smooth() function will not be correct/appropriate to display.
 SE
 
 ``` r
- ggplot(dat%>%filter(size.class=="legal"&year==2019), aes(x=complexity, y=count,colour=sanctuary)) + 
+ ggplot(dat%>%filter(size.class=="legal"&year==2021), aes(x=complexity, y=count,colour=sanctuary)) + 
     geom_smooth(method=lm, size=0.5,se=T)+
     coord_cartesian(ylim = c(0, 3), expand = FALSE)+
   ggtitle("incorrect SE")
@@ -381,7 +382,7 @@ Armstrong - Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Observations: 7,032
+    ## Observations: 7,905
     ## Variables: 10
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
@@ -410,7 +411,7 @@ Armstrong - Sanctuary x Status - with data points
 glimpse(dat)
 ```
 
-    ## Observations: 7,032
+    ## Observations: 7,905
     ## Variables: 10
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
@@ -440,7 +441,7 @@ Green - Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Observations: 7,032
+    ## Observations: 7,905
     ## Variables: 10
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
@@ -469,7 +470,7 @@ Parker - Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Observations: 7,032
+    ## Observations: 7,905
     ## Variables: 10
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
