@@ -38,7 +38,7 @@ study<-"lobster.density"
 ```
 
 Read in the data from the google sheet and check it
-```{r read, message=FALSE, warning=FALSE}
+```{r read, message=T, warning=FALSE}
 #We need the URL for the google sheet
 url <- "https://docs.google.com/spreadsheets/d/1Wqn7m2jopx11n5fdl9MHZAujRVkjBusdmIHq_gMhf0A"
 
