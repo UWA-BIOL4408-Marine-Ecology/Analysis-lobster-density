@@ -36,9 +36,10 @@ dat.new2<-dat.new%>%
   mutate_at(vars("0":"100"),  replace_na, '0')%>%
 rename_at(vars("0":"100"),funs(paste0("x", .)))%>%
 
-
-
   glimpse()
 
+setwd(here("Data"))
+
+write.csv(dat.new2,"dat.new2.csv")
 
 
