@@ -253,6 +253,7 @@ glimpse(dat)
 
 ggplot(dat%>%filter(size.class=="legal"&year=="2021"), aes(x=complexity, y=count,colour=status)) + 
   geom_smooth(method=lm, size=0.5,se=F)+
+  geom_jitter(alpha=0.25)+
   theme_bw()
 ```
 
