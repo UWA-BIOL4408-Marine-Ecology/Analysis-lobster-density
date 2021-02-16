@@ -34,8 +34,8 @@ library(tidyr)
 library(plyr) #older R library that has a function we need - can cause conflicts with dplyr() and here()
 library(dplyr)
 library(readr)
-library(RCurl) #needed to download data from GitHub
-library(here)
+# library(RCurl) #needed to download data from GitHub
+# library(here)
 
 ```
 
@@ -112,9 +112,11 @@ dat<-read_csv("lobster.density.csv")%>%
 
 Makes response variable data
 ```{r}
+
+
 response<-dat%>%
   dplyr::select(sample.no,count,size.class)%>%
-  pivot_wider(names_from = size.class, values_from = count, values_fill = list(0))%>% #to make the data wide for PRIMER
+  pivot_wider(names_from = size.class, values_from = count, values_fill = 0)%>% #to make the data wide for PRIMER
   dplyr::glimpse()
 ```
 
