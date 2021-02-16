@@ -81,9 +81,10 @@ Make a mean +/-SE plot with a title.
 Here we use stat_summary() and the functions we made above.
 ```{r}
 
-ggplot(dat%>%filter(size.class=="legal"), aes(x=status, y=count,fill=status)) + 
+ggplot(dat%>%filter(size.class=="legal"&year==2021), aes(x=status, y=count,fill=status)) + 
   stat_summary(fun.y=mean, geom="bar") + #add bar at mean
-  stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1) #add error bars
+  stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1)+ #add error bars
+  facet_grid(.~sanctuary)
 
 ```
 

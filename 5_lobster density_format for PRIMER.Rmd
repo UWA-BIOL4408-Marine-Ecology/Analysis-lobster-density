@@ -120,7 +120,21 @@ dir()
 dat<-read_csv("lobster.density.csv")%>%
   glimpse()
 
+
+
 ```
+
+
+Here we use stat_summary() and the functions we made above.
+```{r}
+
+ggplot(dat%>%filter(size.class=="legal"&year==2021), aes(x=status, y=count,fill=status)) + 
+  stat_summary(fun.y=mean, geom="bar") + #add bar at mean
+  stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1)+ #add error bars
+  facet_grid(.~sanctuary)
+
+```
+
 
 
 Makes response variable data

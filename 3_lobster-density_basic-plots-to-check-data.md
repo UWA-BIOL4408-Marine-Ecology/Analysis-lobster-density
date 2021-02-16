@@ -71,7 +71,7 @@ dat<-read_csv("lobster.density.csv")%>%
     ##   count = col_double()
     ## )
 
-    ## Rows: 8,169
+    ## Rows: 8,058
     ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…

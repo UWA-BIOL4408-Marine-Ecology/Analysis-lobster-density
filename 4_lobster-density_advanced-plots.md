@@ -80,7 +80,7 @@ dat<-read_csv("lobster.density.csv")%>%
     ##   count = col_double()
     ## )
 
-    ## Rows: 8,169
+    ## Rows: 8,058
     ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
@@ -285,7 +285,7 @@ All years - Year x Status
 glimpse(dat)
 ```
 
-    ## Rows: 8,169
+    ## Rows: 8,058
     ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
@@ -327,7 +327,7 @@ All years - complexity x Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Rows: 8,169
+    ## Rows: 8,058
     ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
@@ -356,7 +356,7 @@ All years - complexity x Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Rows: 8,169
+    ## Rows: 8,058
     ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
@@ -466,7 +466,7 @@ Armstrong - Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Rows: 8,169
+    ## Rows: 8,058
     ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
@@ -500,7 +500,7 @@ Armstrong - Sanctuary x Status - with data points
 glimpse(dat)
 ```
 
-    ## Rows: 8,169
+    ## Rows: 8,058
     ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
@@ -535,7 +535,7 @@ Green - Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Rows: 8,169
+    ## Rows: 8,058
     ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
@@ -569,7 +569,7 @@ Parker - Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Rows: 8,169
+    ## Rows: 8,058
     ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
