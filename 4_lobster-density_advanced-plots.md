@@ -363,7 +363,36 @@ glimpse(dat)
     ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
 
 ``` r
-ggplot(dat%>%filter(size.class=="legal"), aes(x=complexity, y=count,colour=status)) + 
+ggplot(dat%>%filter(size.class=="legal"&year=="2021"), aes(x=complexity, y=count,colour=status)) + 
+  geom_smooth(method=lm, size=0.5,se=F)+
+  theme_bw()
+```
+
+    ## `geom_smooth()` using formula 'y ~ x'
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+All years - complexity x Sanctuary x Status
+
+``` r
+glimpse(dat)
+```
+
+    ## Rows: 7,905
+    ## Columns: 10
+    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
+    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
+    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
+    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
+    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal", "leg…
+    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
+
+``` r
+ggplot(dat%>%filter(size.class=="legal"&year=="2021"), aes(x=complexity, y=count,colour=status)) + 
   geom_smooth(method=lm, size=0.5,se=F)+
   theme_bw()+
   facet_grid(sanctuary~.)
@@ -371,7 +400,7 @@ ggplot(dat%>%filter(size.class=="legal"), aes(x=complexity, y=count,colour=statu
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 2021 - Sanctuary x Status
 
@@ -388,7 +417,7 @@ ggplot(dat%>%filter(size.class=="legal"&year==2021),aes(x=status, y=count,fill=s
 
     ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 2020 - Complexity x Status
 
@@ -401,7 +430,7 @@ ggplot(dat%>%filter(size.class=="legal"&year==2021),aes(x=status, y=count,fill=s
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 2021 - Depth x Status
 
@@ -414,7 +443,7 @@ ggplot(dat%>%filter(size.class=="legal"&year==2021),aes(x=status, y=count,fill=s
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
 
 ## A note on geom\_smooth()
 
@@ -440,7 +469,7 @@ geom\_smooth() function will not be correct/appropriate to display.
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 In this case, the appropriate way to generate a SE would be to model the
 data using glmer() or equivalent and then use predict() to predict the
@@ -487,7 +516,7 @@ ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Armstrong Bay"),aes(x=year, 
 
     ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 Armstrong - Sanctuary x Status - with data points
 
@@ -523,7 +552,7 @@ ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Armstrong Bay"),aes(x=year, 
 
     ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
 Green - Sanctuary x Status
 
@@ -558,7 +587,7 @@ ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Green Island"),aes(x=year, y
 
     ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
 
 Parker - Sanctuary x Status
 
@@ -593,7 +622,7 @@ ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Parker Point"),aes(x=year, y
 
     ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
 all - Year x Sanctuary with an incorrect SE
 
@@ -606,7 +635,7 @@ all - Year x Sanctuary with an incorrect SE
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
 
 2018 - St x Complexity with an incorrect SE
 
@@ -620,4 +649,4 @@ all - Year x Sanctuary with an incorrect SE
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->

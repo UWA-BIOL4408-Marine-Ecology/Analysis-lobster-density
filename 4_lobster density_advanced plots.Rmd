@@ -247,14 +247,21 @@ ggplot(dat%>%filter(size.class=="sub.legal"), aes(x=year, y=count,colour=status)
   theme_bw()
 ```
 
+All years - complexity x Sanctuary x Status
+```{r}
+glimpse(dat)
 
+ggplot(dat%>%filter(size.class=="legal"&year=="2021"), aes(x=complexity, y=count,colour=status)) + 
+  geom_smooth(method=lm, size=0.5,se=F)+
+  theme_bw()
+```
 
 
 All years - complexity x Sanctuary x Status
 ```{r}
 glimpse(dat)
 
-ggplot(dat%>%filter(size.class=="legal"), aes(x=complexity, y=count,colour=status)) + 
+ggplot(dat%>%filter(size.class=="legal"&year=="2021"), aes(x=complexity, y=count,colour=status)) + 
   geom_smooth(method=lm, size=0.5,se=F)+
   theme_bw()+
   facet_grid(sanctuary~.)
