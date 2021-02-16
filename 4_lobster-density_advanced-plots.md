@@ -42,32 +42,18 @@ se.min <- function(x) (mean(x)) - se(x) #to make SE min.
 se.max <- function(x) (mean(x)) + se(x) #to make SE max.
 ```
 
-Use here() to make a shortcut to the “Data” directory.
-
 ``` r
-data.dir <- here("Data")
+working.dir<-dirname(rstudioapi::getActiveDocumentContext()$path) # to directory of current file - or type your own
 
-# or for ecocloud
-#data.dir <- here("workspace","Template-lobster-density","Data")
-```
-
-Create a ‘Plots’ folder if you don’t already have one and create a
-shortcut to it
-
-``` r
-dir.create(file.path(here(), "Plots")) #create Plots folder
-
-plots.dir=here("Plots")
-
-# or for ecocloud
-#dir.create(file.path(here(), "workspace","Template-lobster-density","Plots"))
-#plots.dir <- here("workspace","Template-lobster-density","Plots")
+## Save these directory names to use later----
+data.dir<-paste(working.dir,"Data",sep="/")
+plot.dir<-paste(working.dir,"Plots",sep="/")
+primer.dir<-paste(working.dir,"PRIMER",sep="/")
 ```
 
 Read in data for plotting
 
 ``` r
-data.dir <- here("Data")
 setwd(data.dir)#this is out shortcut using here()
 dir()
 ```
@@ -85,7 +71,6 @@ dat<-read_csv("lobster.density.csv")%>%
     ## cols(
     ##   sample.no = col_double(),
     ##   year = col_double(),
-    ##   date = col_datetime(format = ""),
     ##   sanctuary = col_character(),
     ##   status = col_character(),
     ##   site.new = col_character(),
@@ -95,11 +80,10 @@ dat<-read_csv("lobster.density.csv")%>%
     ##   count = col_double()
     ## )
 
-    ## Rows: 7,905
-    ## Columns: 10
+    ## Rows: 8,169
+    ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
     ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
     ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
     ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
@@ -149,7 +133,8 @@ and many other settings. By default it will use the last plot made and
 set the size of the plot to the size of the plotting window.
 
 ``` r
-ggsave(here("Plots","status.barplot.png"))
+setwd(plot.dir)
+ggsave("status.barplot.png")
 ```
 
     ## Saving 7 x 5 in image
@@ -181,13 +166,7 @@ are making mulitple plots in a script and want to save them all in one
 go at the end of the script. We can also sett the size of the final plot
 
 ``` r
-ggsave(here("Plots","status.barplot2.png"),status.barplot)
-```
-
-    ## Saving 7 x 5 in image
-
-``` r
-ggsave(here("Plots","status.barplot2.png"),status.barplot,
+ggsave("status.barplot2.png",
        width = 15, height = 8,units = "cm") 
 ```
 
@@ -268,7 +247,7 @@ status.year.sanctuary
 Save the plot - change the size to fit all the text in.
 
 ``` r
-ggsave(here("Plots","status.barplot.png"),status.year.sanctuary,
+ggsave("status.barplot.png",status.year.sanctuary,
        width = 15, height = 15,units = "cm")
 ```
 
@@ -306,11 +285,10 @@ All years - Year x Status
 glimpse(dat)
 ```
 
-    ## Rows: 7,905
-    ## Columns: 10
+    ## Rows: 8,169
+    ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
     ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
     ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
     ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
@@ -349,11 +327,10 @@ All years - complexity x Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Rows: 7,905
-    ## Columns: 10
+    ## Rows: 8,169
+    ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
     ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
     ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
     ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
@@ -379,11 +356,10 @@ All years - complexity x Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Rows: 7,905
-    ## Columns: 10
+    ## Rows: 8,169
+    ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
     ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
     ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
     ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
@@ -490,11 +466,10 @@ Armstrong - Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Rows: 7,905
-    ## Columns: 10
+    ## Rows: 8,169
+    ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
     ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
     ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
     ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
@@ -525,11 +500,10 @@ Armstrong - Sanctuary x Status - with data points
 glimpse(dat)
 ```
 
-    ## Rows: 7,905
-    ## Columns: 10
+    ## Rows: 8,169
+    ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
     ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
     ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
     ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
@@ -561,11 +535,10 @@ Green - Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Rows: 7,905
-    ## Columns: 10
+    ## Rows: 8,169
+    ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
     ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
     ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
     ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
@@ -596,11 +569,10 @@ Parker - Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Rows: 7,905
-    ## Columns: 10
+    ## Rows: 8,169
+    ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
     ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
     ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
     ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…

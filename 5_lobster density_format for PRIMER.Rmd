@@ -46,6 +46,19 @@ study<-"lobster.density"
 ```
 
 
+
+```{r , message=FALSE, warning=FALSE}
+
+working.dir<-dirname(rstudioapi::getActiveDocumentContext()$path) # to directory of current file - or type your own
+
+## Save these directory names to use later----
+data.dir<-paste(working.dir,"Data",sep="/")
+plot.dir<-paste(working.dir,"Plots",sep="/")
+primer.dir<-paste(working.dir,"PRIMER",sep="/")
+
+```
+
+
 Create functions needed for PRIMER format
 ```{r , message=FALSE, warning=FALSE}
 # Needed for PRIMER to append a blank column to distiguish Factors

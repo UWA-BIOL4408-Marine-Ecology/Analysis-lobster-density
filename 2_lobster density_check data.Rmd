@@ -30,15 +30,16 @@ study<-"lobster.density"
 ```
 
 
-Use here() to make a shortcut to the "Data" directory.
-```{r here, message=FALSE, warning=FALSE}
-data.dir <- here("Data")
+```{r , message=FALSE, warning=FALSE}
 
+working.dir<-dirname(rstudioapi::getActiveDocumentContext()$path) # to directory of current file - or type your own
 
-#or for ecocloud
-#data.dir <- here("workspace","Template-lobster-density","Data")
+## Save these directory names to use later----
+data.dir<-paste(working.dir,"Data",sep="/")
+plot.dir<-paste(working.dir,"Plots",sep="/")
+primer.dir<-paste(working.dir,"PRIMER",sep="/")
+
 ```
-
 
 Read in the data and glimpse the data.
 glimpse() shows the variable names, formats, head of the data.
@@ -214,7 +215,8 @@ correct.dat<-gsheet.dat %>%
   mutate(sanctuary = if_else(site == "Strickland Bay",   "Green Island", sanctuary)) %>%
    mutate(sanctuary = if_else(site == "Green Island",   "Green Island", sanctuary)) %>%
 
-
+mutate(sanctuary = if_else(site == "City of York",   "Armstrong Bay", sanctuary)) %>%
+  mutate(sanctuary = if_else(site == "Mary Cove",   "Green Island", sanctuary)) %>%
   
   
   dplyr::mutate(sanctuary = fct_recode(sanctuary,
@@ -252,14 +254,6 @@ correct.dat<-gsheet.dat %>%
 Now we can check our corrections
 ```{r , message=FALSE, warning=FALSE}
 
-glimpse(correct.dat)
-
-unique(correct.dat$sanctuary) 
-
-unique(correct.dat$site) 
-
-unique(correct.dat$status)
-
 table(correct.dat$site.new,correct.dat$year)
 
 
@@ -277,7 +271,7 @@ Now make new varialbes for sum of legal and sub.legal.
 ```{r make sum}
 
 dat<-correct.dat%>%
-  select(-c("sampling.location"))%>%
+  select(-c("sampling.location","date"))%>%
   replace(is.na(.), 0)%>%
   
   mutate_at(vars("x20":"x150"), funs(as.numeric(as.character(.))))%>%
@@ -301,7 +295,7 @@ dat<-correct.dat%>%
   dplyr::mutate(sample.no=1:nrow(.))%>%
   
   # select the variables of interest
-  select(c(sample.no,year,date,sanctuary,status,site.new,complexity,depth,legal,sub.legal,all))%>%
+  select(c(sample.no,year,sanctuary,status,site.new,complexity,depth,legal,sub.legal,all))%>%
   
   glimpse()
 

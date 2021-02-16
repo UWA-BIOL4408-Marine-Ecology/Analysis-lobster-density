@@ -22,7 +22,6 @@ library(here) #to make robust links to files
 
 library(forcats) #to transform catagorical data
 library(ggplot2) #to plot data
-library(RCurl) #needed to download data from GitHub
 
 ```
 
@@ -33,15 +32,16 @@ study<-"lobster.density"
 ```
 
 
-Use here() to make a shortcut to the "Data" directory.
-```{r here, message=FALSE, warning=FALSE}
-here()
-data.dir <- here("Data")
 
-# or for ecocloud
-#data.dir <- here("workspace","Template-lobster-density","Data")
+```{r , message=FALSE, warning=FALSE}
 
-data.dir
+working.dir<-dirname(rstudioapi::getActiveDocumentContext()$path) # to directory of current file - or type your own
+
+## Save these directory names to use later----
+data.dir<-paste(working.dir,"Data",sep="/")
+plot.dir<-paste(working.dir,"Plots",sep="/")
+primer.dir<-paste(working.dir,"PRIMER",sep="/")
+
 ```
 
 
@@ -63,11 +63,8 @@ dat<-read_csv("lobster.density.csv")%>%
 ```
 
 
-## OR read from github and write to data folder
+##  write to data folder
 ```{r message=FALSE, warning=FALSE}
-
-dat.git<-read.csv(text=getURL("https://raw.githubusercontent.com/UWA-BIOL4408-Marine-Ecology/Analysis-lobster-density/master/Data/lobster.density.csv"))%>%
-  glimpse()
 
 
 setwd(data.dir) #set the directory

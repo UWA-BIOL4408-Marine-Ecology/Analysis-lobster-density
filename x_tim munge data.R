@@ -26,7 +26,7 @@ url2 <- "https://docs.google.com/spreadsheets/d/1FTCSZq32Tct1AsVX9F2tuJy_cni8SQS
 
 dat.new<-read_sheet(url2, sheet = "Sheet1")%>%
   as_tibble()%>%
-  # select(-c('longitude','latitude','time','way.point','gps','group'))%>%
+  select(-c('Group'))%>%
   glimpse()
 
 glimpse(dat.new)
@@ -34,19 +34,20 @@ glimpse(dat.new)
 
 dat.new2<-dat.new%>%
   mutate(size=as.numeric(as.character(unlist(size))))%>%
-  mutate(Group=as.numeric(as.character(unlist(Group))))%>%
   mutate(size=ceiling(size/5)*5)%>%
   mutate(count=1)%>%
-  group_by(date,Group,site,status,replicate,size,complexity,algal.cover,depth)%>%
-  summarise(count=sum(count))%>%
+  group_by(date,site,status,replicate,size,complexity,algal.cover,depth)%>%
+  dplyr::summarise(count=sum(count))%>%
   pivot_wider(names_from = size, values_from = count)%>%
   mutate_at(vars("0":"100"),  replace_na, '0')%>%
 rename_at(vars("0":"100"),funs(paste0("x", .)))%>%
 
   glimpse()
 
-setwd(here("Data"))
+summary(dat.new2$WRL)
 
+setwd(here("Data"))
+dir()
 write.csv(dat.new2,"dat.new2.csv")
 
 

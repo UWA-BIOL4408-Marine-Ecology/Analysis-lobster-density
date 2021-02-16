@@ -93,7 +93,7 @@ dat<-read_sheet(url, sheet = "lobster.density")%>%
 
     ## Range "'lobster.density'"
 
-    ## Rows: 3,516
+    ## Rows: 3,604
     ## Columns: 40
     ## $ year              <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 201…
     ## $ date              <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-…
@@ -108,7 +108,7 @@ dat<-read_sheet(url, sheet = "lobster.density")%>%
     ## $ unsized           <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ legal.unsized     <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ sublegal.unsized  <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ x20               <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+    ## $ x20               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ x25               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ x30               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
     ## $ x35               <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, …
@@ -154,10 +154,13 @@ We are going to use the here() function, which creates a shortcut to
 your location.
 
 ``` r
-here()
-```
+working.dir<-dirname(rstudioapi::getActiveDocumentContext()$path) # to directory of current file - or type your own
 
-    ## [1] "/Users/00068010/github/UWA BIOL4408/Analysis-lobster-density"
+## Save these directory names to use later----
+data.dir<-paste(working.dir,"Data",sep="/")
+plot.dir<-paste(working.dir,"Plots",sep="/")
+primer.dir<-paste(working.dir,"PRIMER",sep="/")
+```
 
 As long as the names on the folders are consistent this function will
 enable us to work across computers and operating systems.
@@ -169,17 +172,6 @@ to the here() function - but this should work
 
 Let’s create a “Data” directory then use here() to make a shortcut to
 that “Data” directory.
-
-``` r
-dir.create(file.path(here(), "Data")) #create Data folder
-
-data.dir <- here("Data")
-
-#or for ecocloud
-#dir.create(file.path(here(), "workspace","Template-lobster-density","Data")) #create Data folder
-
-#data.dir <- here("workspace","Template-lobster-density","Data")
-```
 
 Now to write the data we have imported from the googlesheet. We will
 append the study name.

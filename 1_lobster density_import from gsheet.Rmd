@@ -92,8 +92,13 @@ We are going to use the here() function, which creates a shortcut to your locati
 
 ```{r , message=FALSE, warning=FALSE}
 
+working.dir<-dirname(rstudioapi::getActiveDocumentContext()$path) # to directory of current file - or type your own
 
-here()
+## Save these directory names to use later----
+data.dir<-paste(working.dir,"Data",sep="/")
+plot.dir<-paste(working.dir,"Plots",sep="/")
+primer.dir<-paste(working.dir,"PRIMER",sep="/")
+
 ```
 
 As long as the names on the folders are consistent this function will enable us to work across computers and operating systems.
@@ -102,18 +107,6 @@ As long as the names on the folders are consistent this function will enable us 
 If you are using an ecocloud server - we will have to add folder names to the here() function - but this should work
 
 #here("workspace","Template-lobster-density","Data")
-
-Let's create a "Data" directory then use here() to make a shortcut to that "Data" directory.
-```{r here, message=FALSE, warning=FALSE}
-dir.create(file.path(here(), "Data")) #create Data folder
-
-data.dir <- here("Data")
-
-#or for ecocloud
-#dir.create(file.path(here(), "workspace","Template-lobster-density","Data")) #create Data folder
-
-#data.dir <- here("workspace","Template-lobster-density","Data")
-```
 
 
 Now to write the data we have imported from the googlesheet.

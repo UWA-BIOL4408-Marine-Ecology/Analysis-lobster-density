@@ -51,6 +51,15 @@ Set a study name
 study<-"lobster.density"
 ```
 
+``` r
+working.dir<-dirname(rstudioapi::getActiveDocumentContext()$path) # to directory of current file - or type your own
+
+## Save these directory names to use later----
+data.dir<-paste(working.dir,"Data",sep="/")
+plot.dir<-paste(working.dir,"Plots",sep="/")
+primer.dir<-paste(working.dir,"PRIMER",sep="/")
+```
+
 Create functions needed for PRIMER format
 
 ``` r
@@ -122,7 +131,6 @@ dat<-read_csv("lobster.density.csv")%>%
     ## cols(
     ##   sample.no = col_double(),
     ##   year = col_double(),
-    ##   date = col_datetime(format = ""),
     ##   sanctuary = col_character(),
     ##   status = col_character(),
     ##   site.new = col_character(),
@@ -132,11 +140,10 @@ dat<-read_csv("lobster.density.csv")%>%
     ##   count = col_double()
     ## )
 
-    ## Rows: 7,905
-    ## Columns: 10
+    ## Rows: 8,169
+    ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
     ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
     ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
     ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
@@ -154,7 +161,7 @@ response<-dat%>%
   dplyr::glimpse()
 ```
 
-    ## Rows: 2,635
+    ## Rows: 2,723
     ## Columns: 4
     ## $ sample.no <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, …
     ## $ legal     <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,…
@@ -170,7 +177,7 @@ covariates<-dat%>%
   dplyr::glimpse()
 ```
 
-    ## Rows: 2,635
+    ## Rows: 2,723
     ## Columns: 4
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
@@ -186,7 +193,7 @@ factors<-dat%>%
   glimpse()
 ```
 
-    ## Rows: 2,635
+    ## Rows: 2,723
     ## Columns: 5
     ## $ sample.no <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, …
     ## $ sanctuary <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstro…
@@ -205,7 +212,7 @@ response.factors<-factors%>%
   glimpse()
 ```
 
-    ## Rows: 2,635
+    ## Rows: 2,723
     ## Columns: 9
     ## $ sample.no <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, …
     ## $ legal     <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,…
@@ -227,7 +234,7 @@ covariate.factors<-covariates%>%
   glimpse()
 ```
 
-    ## Rows: 2,635
+    ## Rows: 2,723
     ## Columns: 9
     ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
     ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
