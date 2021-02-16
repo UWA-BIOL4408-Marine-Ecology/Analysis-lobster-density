@@ -142,12 +142,12 @@ table(gsheet.dat$site.new,gsheet.dat$year)
     ##   NA.In.Little Armstrong                         0    0    0    0    0    0
     ##   NA.In.Parker Point                             0    0    0    0    0    0
     ##   NA.In.Salmon East                              0    0    0    0    0    0
-    ##   NA.In.Salmon West                              0    0    0    0    0    0
-    ##   NA.In.West Salmon                              0    0    0    0    0    0
     ##   NA.Out.Fairbridge                              0    0    0    0    0    0
     ##   NA.Out.Geordie  Bay                            0    0    0    0    0    0
     ##   NA.Out.Parker Point                            0    0    0    0    0    0
+    ##   NA.Out.Salmon West                             0    0    0    0    0    0
     ##   NA.Out.Strickland East                         0    0    0    0    0    0
+    ##   NA.Out.West Salmon                             0    0    0    0    0    0
     ##   Parker Point.Fished.Fairbridge                 0   29   30   40   30    0
     ##   Parker Point.Fished.Parker Point              40   30   30   40   30    0
     ##   Parker Point.No-take.eastsalmon                0    0    0    0   30    0
@@ -202,12 +202,12 @@ table(gsheet.dat$site.new,gsheet.dat$year)
     ##   NA.In.Little Armstrong                         0   39
     ##   NA.In.Parker Point                             0   31
     ##   NA.In.Salmon East                              0   41
-    ##   NA.In.Salmon West                              0   10
-    ##   NA.In.West Salmon                              0   10
     ##   NA.Out.Fairbridge                              0   35
     ##   NA.Out.Geordie  Bay                            0   34
     ##   NA.Out.Parker Point                            0   39
+    ##   NA.Out.Salmon West                             0   10
     ##   NA.Out.Strickland East                         0   31
+    ##   NA.Out.West Salmon                             0   10
     ##   Parker Point.Fished.Fairbridge                 0    0
     ##   Parker Point.Fished.Parker Point               0    0
     ##   Parker Point.No-take.eastsalmon                0    0
@@ -443,12 +443,12 @@ table(gsheet.dat$site,gsheet.dat$status)
     ##   Salmon Bay                     0   0     129       0   0
     ##   Salmon Bay West               30   0       0       0   0
     ##   Salmon East                    0  41       0       0   0
-    ##   Salmon West                    0  10       0       0   0
+    ##   Salmon West                    0   0       0       0  10
     ##   Stark Bay                     20   0       0       0   0
     ##   Stickland East                20   0       0       0   0
     ##   Strickland Bay               175   0       0       0   0
     ##   Strickland East                0   0       0       0  31
-    ##   West Salmon                  160  10       0       0   0
+    ##   West Salmon                  160   0       0       0  10
     ##   West_Salmon_Bay               30   0       0       0   0
 
 ## Corrections to the data
@@ -684,10 +684,9 @@ table(correct.dat$site.new,correct.dat$year)
     ##   Armstrong Bay.Fished.Ricey Beach         30   30   30   40   30   30    0
     ##   Armstrong Bay.No-take.Little Armstrong   58   30   30   31   30   60   39
     ##   Green Island.Fished.Strickland Bay       25   40   30   40   30   20   31
-    ##   Green Island.Fished.West Salmon          27   23   30   40   30   30    0
+    ##   Green Island.Fished.West Salmon          27   23   30   40   30   30   20
     ##   Green Island.No-take.Green Island        30   20   30   30   30   30   21
     ##   Green Island.No-take.Mary Cove           29   30   30   30   30   30    0
-    ##   Green Island.No-take.West Salmon          0    0    0    0    0    0   20
     ##   Parker Point.Fished.Fairbridge            0   29   30   30   30   20   35
     ##   Parker Point.Fished.Parker Point         40   30   30   30   30   30   39
     ##   Parker Point.No-take.Little Salmon       29   60   60   69   61   30   41
