@@ -95,6 +95,16 @@ ggplot(dat%>%filter(size.class=="legal"), aes(x=status, y=count,fill=status)) +
 ```
 
 
+
+```{r}
+
+ggplot(dat%>%filter(size.class=="legal"&year=="2021"), aes(x=status, y=count,fill=status)) + 
+  stat_summary(fun.y=mean, geom="bar") + #add bar at mean
+  stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1)+ #add error bars
+facet_grid(.~sanctuary)
+```
+
+
 ## Save a plot
 Here we use ggsave(), you can specify the format of the plot, it's size and many other settings. By default it will use the last plot made and set the size of the plot to the size of the plotting window. 
 ```{r}
@@ -242,18 +252,20 @@ ggplot(dat%>%filter(size.class=="sub.legal"), aes(x=year, y=count,colour=status)
 
 All years - complexity x Sanctuary x Status
 ```{r}
+glimpse(dat)
+
 ggplot(dat%>%filter(size.class=="legal"), aes(x=complexity, y=count,colour=status)) + 
   geom_smooth(method=lm, size=0.5,se=F)+
   theme_bw()+
   facet_grid(sanctuary~.)
 ```
 
-2020 - Sanctuary x Status
+2021 - Sanctuary x Status
 ```{r}
 ggplot(dat%>%filter(size.class=="legal"&year==2021),aes(x=status, y=count,fill=status)) +
     stat_summary(fun.y=mean, geom="bar", colour="black") +
     stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1) +
-    facet_grid(.~sanctuary)
+    facet_grid(site.new~sanctuary)
 ```
 
 

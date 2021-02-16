@@ -3,7 +3,7 @@ BIOL4408 Marine Ecology: Lobster density 4.
 TimLanglois
 15/02/2021
 
-# 4\. Advanced plots
+# 4. Advanced plots
 
 For a discussion the Do’s and don’ts of making effective graphics, I
 recomend checking out Jenny Bryan’s recomnedations in her excellent
@@ -80,7 +80,8 @@ dat<-read_csv("lobster.density.csv")%>%
   glimpse()
 ```
 
-    ## Parsed with column specification:
+    ## 
+    ## ── Column specification ────────────────────────────────────────────────────────
     ## cols(
     ##   sample.no = col_double(),
     ##   year = col_double(),
@@ -94,24 +95,23 @@ dat<-read_csv("lobster.density.csv")%>%
     ##   count = col_double()
     ## )
 
-    ## Observations: 7,905
-    ## Variables: 10
-    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
-    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26…
-    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "A…
-    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take"…
-    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong …
-    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2,…
-    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
-    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal",…
-    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,…
+    ## Rows: 7,905
+    ## Columns: 10
+    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
+    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
+    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
+    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
+    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal", "leg…
+    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
 
 ## Make mean and SE plot
 
 Make a mean +/-SE plot with a title. Here we use stat\_summary() and the
-functions we made
-above.
+functions we made above.
 
 ``` r
 ggplot(dat%>%filter(size.class=="legal"), aes(x=status, y=count,fill=status)) + 
@@ -119,7 +119,28 @@ ggplot(dat%>%filter(size.class=="legal"), aes(x=status, y=count,fill=status)) +
   stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1) #add error bars
 ```
 
+    ## Warning: `fun.y` is deprecated. Use `fun` instead.
+
+    ## Warning: `fun.ymin` is deprecated. Use `fun.min` instead.
+
+    ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
+
 ![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+``` r
+ggplot(dat%>%filter(size.class=="legal"&year=="2021"), aes(x=status, y=count,fill=status)) + 
+  stat_summary(fun.y=mean, geom="bar") + #add bar at mean
+  stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1)+ #add error bars
+facet_grid(.~sanctuary)
+```
+
+    ## Warning: `fun.y` is deprecated. Use `fun` instead.
+
+    ## Warning: `fun.ymin` is deprecated. Use `fun.min` instead.
+
+    ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ## Save a plot
 
@@ -134,18 +155,26 @@ ggsave(here("Plots","status.barplot.png"))
     ## Saving 7 x 5 in image
 
 When you make a plot you can create a plot object and then call this in
-the ggsave() - we have also added a
-title
+the ggsave() - we have also added a title
 
 ``` r
 status.barplot <- ggplot(dat%>%filter(size.class=="legal"), aes(x=status, y=count,fill=status)) + 
   stat_summary(fun.y=mean, geom="bar") + #add bar at mean
   stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1) + #add error bars
   ggtitle("Legal lobster") #add a title
+```
+
+    ## Warning: `fun.y` is deprecated. Use `fun` instead.
+
+    ## Warning: `fun.ymin` is deprecated. Use `fun.min` instead.
+
+    ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
+
+``` r
 status.barplot
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 Here we save the plot base on its name. This makes life simpler when you
 are making mulitple plots in a script and want to save them all in one
@@ -164,10 +193,10 @@ ggsave(here("Plots","status.barplot2.png"),status.barplot,
 
 ## What’s wrong with this code?
 
-ggbarplot.status.size\<-ggplot(dat, aes(x=status, y=count,fill=status))
-+ stat\_summary(fun.y=mean, geom=“bar”) + stat\_summary(fun.ymin =
-se.min, fun.ymax = se.max, geom = “errorbar”, width = 0.1)+
-facet\_grid(size.class~)
+ggbarplot.status.size&lt;-ggplot(dat, aes(x=status,
+y=count,fill=status)) + stat\_summary(fun.y=mean, geom=“bar”) +
+stat\_summary(fun.ymin = se.min, fun.ymax = se.max, geom = “errorbar”,
+width = 0.1)+ facet\_grid(size.class\~)
 
 ggbarplot.status.size
 
@@ -208,8 +237,7 @@ Theme1 <-
     strip.background = element_blank()) #turns off the facet strip box
 ```
 
-Mean and +/-SE plot with theme\_bw() and custom
-theme
+Mean and +/-SE plot with theme\_bw() and custom theme
 
 ``` r
 status.year.sanctuary<-ggplot(dat%>%filter(size.class=="legal"), aes(x=status, y=count,fill=status)) + 
@@ -223,10 +251,19 @@ status.year.sanctuary<-ggplot(dat%>%filter(size.class=="legal"), aes(x=status, y
   theme_bw()+
   Theme1+
   facet_grid(year~sanctuary)
+```
+
+    ## Warning: `fun.y` is deprecated. Use `fun` instead.
+
+    ## Warning: `fun.ymin` is deprecated. Use `fun.min` instead.
+
+    ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
+
+``` r
 status.year.sanctuary
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 Save the plot - change the size to fit all the text in.
 
@@ -243,8 +280,7 @@ plotting and formatting help.
 
 # Some more interesting plots
 
-All years - Year x
-Status
+All years - Year x Status
 
 ``` r
 ggplot(dat%>%filter(size.class=="legal"), aes(x=year, y=count,colour=status)) + 
@@ -254,7 +290,15 @@ ggplot(dat%>%filter(size.class=="legal"), aes(x=year, y=count,colour=status)) +
   theme_bw()
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+    ## Warning: `fun.y` is deprecated. Use `fun` instead.
+
+    ## Warning: `fun.y` is deprecated. Use `fun` instead.
+
+    ## Warning: `fun.ymin` is deprecated. Use `fun.min` instead.
+
+    ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 All years - Year x Status
 
@@ -262,18 +306,18 @@ All years - Year x Status
 glimpse(dat)
 ```
 
-    ## Observations: 7,905
-    ## Variables: 10
-    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
-    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26…
-    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "A…
-    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take"…
-    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong …
-    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2,…
-    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
-    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal",…
-    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,…
+    ## Rows: 7,905
+    ## Columns: 10
+    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
+    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
+    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
+    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
+    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal", "leg…
+    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
 
 ``` r
 unique(dat$size.class)
@@ -289,10 +333,34 @@ ggplot(dat%>%filter(size.class=="sub.legal"), aes(x=year, y=count,colour=status)
   theme_bw()
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+    ## Warning: `fun.y` is deprecated. Use `fun` instead.
 
-All years - complexity x Sanctuary x
-Status
+    ## Warning: `fun.y` is deprecated. Use `fun` instead.
+
+    ## Warning: `fun.ymin` is deprecated. Use `fun.min` instead.
+
+    ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+All years - complexity x Sanctuary x Status
+
+``` r
+glimpse(dat)
+```
+
+    ## Rows: 7,905
+    ## Columns: 10
+    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
+    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
+    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
+    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
+    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal", "leg…
+    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
 
 ``` r
 ggplot(dat%>%filter(size.class=="legal"), aes(x=complexity, y=count,colour=status)) + 
@@ -301,22 +369,28 @@ ggplot(dat%>%filter(size.class=="legal"), aes(x=complexity, y=count,colour=statu
   facet_grid(sanctuary~.)
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+    ## `geom_smooth()` using formula 'y ~ x'
 
-2020 - Sanctuary x
-Status
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+2021 - Sanctuary x Status
 
 ``` r
 ggplot(dat%>%filter(size.class=="legal"&year==2021),aes(x=status, y=count,fill=status)) +
     stat_summary(fun.y=mean, geom="bar", colour="black") +
     stat_summary(fun.ymin = se.min, fun.ymax = se.max, geom = "errorbar", width = 0.1) +
-    facet_grid(.~sanctuary)
+    facet_grid(site.new~sanctuary)
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+    ## Warning: `fun.y` is deprecated. Use `fun` instead.
 
-2020 - Complexity x
-Status
+    ## Warning: `fun.ymin` is deprecated. Use `fun.min` instead.
+
+    ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+2020 - Complexity x Status
 
 ``` r
  ggplot(dat%>%filter(size.class=="legal"&year==2021), aes(x=complexity, y=count,colour=sanctuary)) + 
@@ -325,10 +399,11 @@ Status
   facet_grid(.~status)
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+    ## `geom_smooth()` using formula 'y ~ x'
 
-2021 - Depth x
-Status
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+2021 - Depth x Status
 
 ``` r
  ggplot(dat%>%filter(size.class=="legal"&year==2021), aes(x=depth, y=count,colour=sanctuary)) + 
@@ -337,7 +412,9 @@ Status
   facet_grid(.~status)
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+    ## `geom_smooth()` using formula 'y ~ x'
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 ## A note on geom\_smooth()
 
@@ -352,8 +429,7 @@ involes multiple locations and sites, which may have been analysed with
 a nested and/or mixed model. Therefore any SE calcualted by the
 geom\_smooth() function will not be correct/appropriate to display.
 
-2019 - Complexity x Sanctuary with an incorrect
-SE
+2019 - Complexity x Sanctuary with an incorrect SE
 
 ``` r
  ggplot(dat%>%filter(size.class=="legal"&year==2021), aes(x=complexity, y=count,colour=sanctuary)) + 
@@ -362,7 +438,9 @@ SE
   ggtitle("incorrect SE")
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+    ## `geom_smooth()` using formula 'y ~ x'
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
 
 In this case, the appropriate way to generate a SE would be to model the
 data using glmer() or equivalent and then use predict() to predict the
@@ -382,18 +460,18 @@ Armstrong - Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Observations: 7,905
-    ## Variables: 10
-    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
-    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26…
-    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "A…
-    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take"…
-    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong …
-    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2,…
-    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
-    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal",…
-    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,…
+    ## Rows: 7,905
+    ## Columns: 10
+    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
+    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
+    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
+    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
+    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal", "leg…
+    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
 
 ``` r
 ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Armstrong Bay"),aes(x=year, y=count,colour=status)) +
@@ -403,7 +481,13 @@ ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Armstrong Bay"),aes(x=year, 
   theme(strip.text.y = element_text(angle=0))
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+    ## Warning: `fun.y` is deprecated. Use `fun` instead.
+
+    ## Warning: `fun.ymin` is deprecated. Use `fun.min` instead.
+
+    ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 Armstrong - Sanctuary x Status - with data points
 
@@ -411,18 +495,18 @@ Armstrong - Sanctuary x Status - with data points
 glimpse(dat)
 ```
 
-    ## Observations: 7,905
-    ## Variables: 10
-    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
-    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26…
-    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "A…
-    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take"…
-    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong …
-    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2,…
-    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
-    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal",…
-    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,…
+    ## Rows: 7,905
+    ## Columns: 10
+    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
+    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
+    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
+    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
+    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal", "leg…
+    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
 
 ``` r
 ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Armstrong Bay"),aes(x=year, y=count,colour=status)) +
@@ -433,7 +517,13 @@ ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Armstrong Bay"),aes(x=year, 
   theme(strip.text.y = element_text(angle=0))
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+    ## Warning: `fun.y` is deprecated. Use `fun` instead.
+
+    ## Warning: `fun.ymin` is deprecated. Use `fun.min` instead.
+
+    ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 Green - Sanctuary x Status
 
@@ -441,18 +531,18 @@ Green - Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Observations: 7,905
-    ## Variables: 10
-    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
-    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26…
-    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "A…
-    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take"…
-    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong …
-    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2,…
-    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
-    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal",…
-    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,…
+    ## Rows: 7,905
+    ## Columns: 10
+    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
+    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
+    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
+    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
+    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal", "leg…
+    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
 
 ``` r
 ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Green Island"),aes(x=year, y=count,colour=status)) +
@@ -462,7 +552,13 @@ ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Green Island"),aes(x=year, y
   theme(strip.text.y = element_text(angle=0))
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+    ## Warning: `fun.y` is deprecated. Use `fun` instead.
+
+    ## Warning: `fun.ymin` is deprecated. Use `fun.min` instead.
+
+    ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
 Parker - Sanctuary x Status
 
@@ -470,18 +566,18 @@ Parker - Sanctuary x Status
 glimpse(dat)
 ```
 
-    ## Observations: 7,905
-    ## Variables: 10
-    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…
-    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
-    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26…
-    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "A…
-    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take"…
-    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong …
-    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2,…
-    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
-    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal",…
-    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,…
+    ## Rows: 7,905
+    ## Columns: 10
+    ## $ sample.no  <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+    ## $ year       <dbl> 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014, 2014…
+    ## $ date       <dttm> 2014-01-26 16:00:00, 2014-01-26 16:00:00, 2014-01-26 16:0…
+    ## $ sanctuary  <chr> "Armstrong Bay", "Armstrong Bay", "Armstrong Bay", "Armstr…
+    ## $ status     <chr> "No-take", "No-take", "No-take", "No-take", "No-take", "No…
+    ## $ site.new   <chr> "Armstrong Bay.No-take.Little Armstrong", "Armstrong Bay.N…
+    ## $ complexity <dbl> 0, 2, 4, 1, 4, 2, 2, 2, 2, 1, 3, 1, 1, 2, 1, 3, 1, 2, 2, 0…
+    ## $ depth      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+    ## $ size.class <chr> "legal", "legal", "legal", "legal", "legal", "legal", "leg…
+    ## $ count      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
 
 ``` r
 ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Parker Point"),aes(x=year, y=count,colour=status)) +
@@ -491,10 +587,15 @@ ggplot(dat%>%filter(size.class=="legal"&sanctuary=="Parker Point"),aes(x=year, y
   theme(strip.text.y = element_text(angle=0))
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+    ## Warning: `fun.y` is deprecated. Use `fun` instead.
 
-all - Year x Sanctuary with an incorrect
-SE
+    ## Warning: `fun.ymin` is deprecated. Use `fun.min` instead.
+
+    ## Warning: `fun.ymax` is deprecated. Use `fun.max` instead.
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+
+all - Year x Sanctuary with an incorrect SE
 
 ``` r
  ggplot(dat%>%filter(size.class=="legal"), aes(x=year, y=count,colour=status)) + 
@@ -503,10 +604,11 @@ SE
   ggtitle("incorrect SE")
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+    ## `geom_smooth()` using formula 'y ~ x'
 
-2018 - St x Complexity with an incorrect
-SE
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+
+2018 - St x Complexity with an incorrect SE
 
 ``` r
  ggplot(dat%>%filter(size.class=="legal"&year=="2018"), aes(x=complexity, y=count,colour=status)) + 
@@ -516,4 +618,6 @@ SE
   ggtitle("incorrect SE")
 ```
 
-![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+    ## `geom_smooth()` using formula 'y ~ x'
+
+![](4_lobster-density_advanced-plots_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
