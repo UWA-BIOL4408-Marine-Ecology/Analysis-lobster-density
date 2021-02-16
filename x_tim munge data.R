@@ -1,4 +1,11 @@
 
+
+library(usethis)
+
+
+usethis::create_github_token()
+
+
 library(tidyr)
 
 

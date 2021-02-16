@@ -10,6 +10,32 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+```{r}
+#### Pacakges we will need
+
+library(googlesheets4) #to read gsheet
+library(tidyr) #to tidy data
+library(dplyr) #to transform data
+library(readr) #to write data
+library(here) #to make robust links to files
+
+
+# How to install packages
+
+#install.packages("googlesheets4")
+#install.packages("tidyr")
+#install.packages("dplyr")
+#install.packages("readr")
+#install.packages("here")
+#install.packages("ggplot2")
+#install.packages("plyr")
+
+```
+
+
+
+
+
 ## 1. Import lobster density data from a google sheet
 
 We have to install two packages that are not pre-installed in ecocloud

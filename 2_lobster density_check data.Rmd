@@ -34,6 +34,7 @@ Use here() to make a shortcut to the "Data" directory.
 ```{r here, message=FALSE, warning=FALSE}
 data.dir <- here("Data")
 
+
 #or for ecocloud
 #data.dir <- here("workspace","Template-lobster-density","Data")
 ```
@@ -276,7 +277,7 @@ Now make new varialbes for sum of legal and sub.legal.
 ```{r make sum}
 
 dat<-correct.dat%>%
-  
+  select(-c("sampling.location"))%>%
   replace(is.na(.), 0)%>%
   
   mutate_at(vars("x20":"x150"), funs(as.numeric(as.character(.))))%>%
